@@ -9,13 +9,15 @@ using namespace std;
 
 // Struct headers
 struct Human;
+struct HumanNode;
+struct TreeOfLife;
 
 // Function headers
 
 // Structs
 struct Human{
     // Attributes
-    int id;
+    int id, generation;
     // TODO: check if it would be better to use an int index for country, belief and job
     string name, surname, country, belief, job, email, birthdate;
     int sins[7];
@@ -25,6 +27,7 @@ struct Human{
     // Constructors
     Human(){
         id = 0;
+        generation = 0;
         name = "";
         surname = "";
         country = "";
@@ -38,9 +41,27 @@ struct Human{
         }
     }
 
-    Human(int _id, string _name, string _surname, string _country, string _belief, string _job, string _email, string _birthdate, vector<Human*> _friends){
+    // For testing purposes
+    Human(int _id){
+        id = _id;
+        generation = 0;
+        name = "";
+        surname = "";
+        country = "";
+        belief = "";
+        job = "";
+        email = "";
+        birthdate = "";
+        for(int i = 0; i < 7; i++){
+            sins[i] = 0;
+            socialNetworks[i] = 0;
+        }
+    }
+
+    Human(int _id, int _generation, string _name, string _surname, string _country, string _belief, string _job, string _email, string _birthdate, vector<Human*> _friends){
         // TODO: check if int _friends is correct or if it should be filled within this struct (in other words, it should recieve the human vector and randomize it here)
         id = _id;
+        generation = _generation;
         name = _name;
         surname = _surname;
         country = _country;
@@ -58,6 +79,10 @@ struct Human{
     // Getters & Setters
     int getId(){
         return id;
+    }
+
+    int getGeneration(){
+        return generation;
     }
 
     string getName(){
@@ -110,6 +135,112 @@ struct Human{
 
     void addFriend(Human * friendToAdd){
         friends.push_back(friendToAdd);
+    }
+};
+
+struct HumanNode{
+    Human* human;
+    HumanNode* left;
+    HumanNode* right;
+
+    HumanNode(){
+        human = NULL;
+        left = NULL;
+        right = NULL;
+    }
+
+    HumanNode(Human* _human){
+        human = _human;
+        left = NULL;
+        right = NULL;
+    }
+
+    HumanNode(Human* _human, HumanNode* _left, HumanNode* _right){
+        human = _human;
+        left = _left;
+        right = _right;
+    }
+
+    int getId(){
+        return human -> getId();
+    }
+
+    Human* getHuman(){
+        return human;
+    }
+
+    HumanNode* getLeft(){
+        return left;
+    }
+
+    HumanNode* getRight(){
+        return right;
+    }
+
+    void setHuman(Human* _human){
+        human = _human;
+    }
+
+    void setLeft(HumanNode* _left){
+        left = _left;
+    }
+
+    void setRight(HumanNode* _right){
+        right = _right;
+    }
+};
+
+struct TreeOfLife{
+    HumanNode* root;
+
+    TreeOfLife(){
+        root = NULL;
+    }
+
+    TreeOfLife(HumanNode* _root){
+        root = _root;
+    }
+
+    HumanNode* getRoot(){
+        return root;
+    }
+
+    void insert(Human* _human){
+        root = insert(_human, root);
+    }
+
+    HumanNode* insert(Human* _human, HumanNode* _node){
+        if (_node == NULL)
+            return new HumanNode(_human);
+        else if (_node -> getId() < _human -> getId())
+            _node -> setRight(insert(_human, _node -> getRight()));
+        else if (_node -> getId() >= _human -> getId())
+            _node -> setLeft(insert(_human, _node -> getLeft()));
+        return _node;
+    }
+
+    void inOrder(){
+        inOrder(root);
+    }
+
+    void preOrder(){
+        preOrder(root);
+    }
+
+    void inOrder(HumanNode* _node){
+        if (_node != NULL){
+            inOrder(_node -> getLeft());
+            cout << _node -> getId() << "  ";
+            inOrder(_node -> getRight());
+        }
+    }
+
+    void preOrder(HumanNode* _node){
+        if (_node != NULL){
+            cout << _node -> getId() << "  ";
+            preOrder(_node -> getLeft());
+            preOrder(_node -> getRight());
+        }
     }
 };
 

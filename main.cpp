@@ -2,5 +2,14 @@
 
 int main() {
     cout << "Hello, world!" << endl;
-    return 0;
+
+    // Test for TreeOfLife Struct
+    TreeOfLife* tree = new TreeOfLife();
+    tree->insert(new Human(1));
+    tree->insert(new Human(4));
+    tree->insert(new Human(6));
+    tree->insert(new Human(2));
+    tree->inOrder();
+    cout << endl;
+    tree->preOrder();
 }
