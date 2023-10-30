@@ -11,6 +11,7 @@ using namespace std;
 struct Human;
 struct HumanNode;
 struct TreeOfLife;
+struct Maxheap;
 
 // Function headers
 
@@ -244,6 +245,73 @@ struct TreeOfLife{
     }
 };
 
+struct Maxheap {
+
+    vector<int> heap;
+    //constructor
+    Maxheap() {
+        heap = {};
+    }
+
+
+    void heapifyUp(int index) {
+        int parentIndex = (index - 1) / 2;
+        while (index > 0 && heap[index] > heap[parentIndex]) {
+            std::swap(heap[index], heap[parentIndex]);
+            index = parentIndex;
+            parentIndex = (index - 1) / 2;
+        }
+    }
+
+    void heapifyDown(int index) {
+        int leftChild = 2 * index + 1;
+        int rightChild = 2 * index + 2;
+        int largest = index;
+
+        if (leftChild < heap.size() && heap[leftChild] > heap[largest]) {
+            largest = leftChild;
+        }
+        if (rightChild < heap.size() && heap[rightChild] > heap[largest]) {
+            largest = rightChild;
+        }
+
+        if (largest != index) {
+            std::swap(heap[index], heap[largest]);
+            heapifyDown(largest);
+        }
+    }
+
+    void insert(int value) {
+        heap.push_back(value);
+        heapifyUp(heap.size() - 1);
+    }
+
+    int extractMax() {
+        if (heap.empty()) {
+            throw std::out_of_range("Heap is empty");
+        }
+
+        int maxValue = heap[0];
+        heap[0] = heap.back();
+        heap.pop_back();
+        heapifyDown(0);
+
+        return maxValue;
+    }
+
+    bool isEmpty() const {
+        return heap.empty();
+    }
+
+    void print() const {
+        for (int i = 0; i < heap.size(); ++i) {
+            std::cout << heap[i] << " ";
+        }
+        std::cout << std::endl;
+    }
+};
+
 // Includes of structs that use this one as sort of a "base struct"
+#include "Structs/Infierno.h"
 
 // Function logic
