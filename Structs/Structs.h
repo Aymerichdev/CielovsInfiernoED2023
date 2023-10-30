@@ -312,6 +312,7 @@ struct Maxheap {
 };
 
 // Includes of structs that use this one as sort of a "base struct"
-#include "Structs/Infierno.h"
+#include "Inferno.h"
+#include "Family.h"
 
 // Function logic
