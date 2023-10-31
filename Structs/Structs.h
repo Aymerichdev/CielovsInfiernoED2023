@@ -12,13 +12,14 @@ struct Human;
 struct HumanNode;
 struct TreeOfLife;
 struct Maxheap;
+struct HumanWorld;
 
 // Function headers
 
 // Structs
 struct Human{
     // Attributes
-    int id, generation;
+    int id, generation, arrayPosition;
     // TODO: check if it would be better to use an int index for country, belief and job
     string name, surname, country, belief, job, email, birthdate;
     int sins[7];
@@ -29,6 +30,7 @@ struct Human{
     Human(){
         id = 0;
         generation = 0;
+        arrayPosition = 0;
         name = "";
         surname = "";
         country = "";
@@ -46,6 +48,7 @@ struct Human{
     Human(int _id){
         id = _id;
         generation = 0;
+        arrayPosition = 0;
         name = "";
         surname = "";
         country = "";
@@ -63,6 +66,7 @@ struct Human{
         // TODO: check if int _friends is correct or if it should be filled within this struct (in other words, it should recieve the human vector and randomize it here)
         id = _id;
         generation = _generation;
+        arrayPosition = 0;
         name = _name;
         surname = _surname;
         country = _country;
@@ -84,6 +88,14 @@ struct Human{
 
     int getGeneration(){
         return generation;
+    }
+
+    int getArrayPosition(){
+        return arrayPosition;
+    }
+
+    void setArrayPosition(int _arrayPosition){
+        arrayPosition = _arrayPosition;
     }
 
     string getName(){
@@ -311,7 +323,86 @@ struct Maxheap {
     }
 };
 
+struct HumanWorld{
+    // Attributes
+    // Sorted by id
+    Human* humans[100000];
+    vector<int> humansIds;
+    int humansCount;
+
+    HumanWorld(){
+        humansCount = 0;
+        srand(time(0));
+        for (int i = 0; i < 100000; i++){
+            humans[i] = NULL;
+            humansIds.push_back(i);
+        }
+    }
+
+    void addHuman(Human* humanToAdd){
+        if (humansCount == 0){
+            humans[0] = humanToAdd;
+            humanToAdd -> setArrayPosition(0);
+            humansCount++;
+            return;
+        }
+        int id = humanToAdd -> getId();
+        for (int i = 0; i < humansCount; i++){
+            if (humans[i]->getId() < id){
+                continue;
+            }else if (humans[i]->getId() > id){
+                for (int j = humansCount; j > i; j--){
+                    humans[j] = humans[j - 1];
+                    humans[j] -> setArrayPosition(j);
+                }
+                humans[i] = humanToAdd;
+                humanToAdd -> setArrayPosition(i);
+                humansCount++;
+                return;
+            }
+        }
+        humans[humansCount++] = humanToAdd;
+    }
+
+    Human* getHuman(int id){
+        for (int i = 0; i < humansCount; i++){
+            if (humans[i]->getId() == id){
+                return humans[i];
+            }
+        }
+        return NULL;
+    }
+
+    Human* generateRandomHuman(){
+        // TODO: has to be changed to generate a random human, including all attributes
+        int id = rand() % humansIds.size();
+        int idHuman = humansIds[id];
+        humansIds.erase(humansIds.begin() + id);
+        return new Human(idHuman);
+    }
+
+    void generateRandomHumans(int amount){
+        if (amount + humansCount > 100000){
+            cout << "Not enough space for " << amount << " humans" << endl;
+            return;
+        }
+        for (int i = 0; i < amount; i++){
+            addHuman(generateRandomHuman());
+        }
+    }
+
+    void printHumans(){
+        for (int i = 0; i < humansCount; i++){
+            if (humans[i] == NULL){
+                break;
+            }else{
+                cout << i << " - " << humans[i]->getId() << endl;
+            }
+        }
+    }
+};
+
 // Includes of structs that use this one as sort of a "base struct"
-#include "Structs/Infierno.h"
+
 
 // Function logic

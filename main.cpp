@@ -13,6 +13,7 @@ int main() {
     cout << endl;
     tree->preOrder();
 
+    // Test for Maxheap Struct
     Maxheap heap;
     heap.insert(1);
     heap.insert(4);
@@ -20,4 +21,12 @@ int main() {
     heap.insert(2);
     heap.insert(8);
     heap.print();
+
+    // Test for HumanWorld Struct
+    HumanWorld* world = new HumanWorld();
+    world->generateRandomHumans(10000);
+    world->generateRandomHumans(1);
+    world->generateRandomHumans(1);
+    world->printHumans();
+
 }
