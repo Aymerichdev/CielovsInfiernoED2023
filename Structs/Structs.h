@@ -20,7 +20,7 @@ struct HumanWorld;
 // Structs
 struct Human{
     // Attributes
-    int id, generation, arrayPosition;
+    int id, generation, arrayPosition, state; // State has three values: 0 = alive, 1 = hell, 2 = heaven
     // TODO: check if it would be better to use an int index for country, belief and job
     string name, surname, country, belief, job, email, birthdate;
     int sins[7];
@@ -32,6 +32,7 @@ struct Human{
         id = 0;
         generation = 0;
         arrayPosition = 0;
+        state = 0;
         name = "";
         surname = "";
         country = "";
@@ -50,6 +51,7 @@ struct Human{
         id = _id;
         generation = 0;
         arrayPosition = 0;
+        state = 0;
         name = "";
         surname = "";
         country = "";
@@ -68,6 +70,7 @@ struct Human{
         id = _id;
         generation = _generation;
         arrayPosition = 0;
+        state = 0;
         name = _name;
         surname = _surname;
         country = _country;
@@ -93,6 +96,14 @@ struct Human{
 
     int getArrayPosition(){
         return arrayPosition;
+    }
+
+    int getState(){
+        return state;
+    }
+
+    void setState(int _state){
+        state = _state;
     }
 
     void setArrayPosition(int _arrayPosition){
@@ -272,12 +283,15 @@ struct TreeOfLife{
         if (_node != NULL){
             emptyTree(_node -> getLeft());
             emptyTree(_node -> getRight());
+            _node->setRight(NULL);
+            _node->setLeft(NULL);
             delete _node;
         }
     }
 
     void emptyTree(){
         emptyTree(root);
+        root = NULL;
     }
 };
 
@@ -430,6 +444,13 @@ struct HumanWorld{
         if (start >= end || level >= levelMax)
             return;
         int middle = (start + end) / 2;
+        // Check if the middle is a valid human, in other words, if it is not in hell or heaven
+        while (humanArray[middle]->getState() != 0){
+            middle--;
+            if (middle < start){
+                return;
+            }
+        }
         treeOfLife->insert(humanArray[middle]);
         level++;
         insertTree(humanArray, start, middle, size, levelMax, level);
