@@ -32,5 +32,10 @@ int main() {
     sinHeap.insert(h2);
     sinHeap.insert(h3);
     sinHeap.print();
+    inferno inferno;
+    inferno.Demons[0]->push_back(sinHeap);
+    inferno.Demons[4]->push_back(sinHeap);
+    inferno.print();
+
 
 }
