@@ -1,6 +1,7 @@
 // Includes all necessary libraries, this will be "inherit" by all files that include this file or files included in this file.
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 // Declare namespace
 using namespace std;
@@ -12,13 +13,14 @@ struct Human;
 struct HumanNode;
 struct TreeOfLife;
 struct Maxheap;
+struct HumanWorld;
 
 // Function headers
 
 // Structs
 struct Human{
     // Attributes
-    int id, generation;
+    int id, generation, arrayPosition, state; // State has three values: 0 = alive, 1 = hell, 2 = heaven
     // TODO: check if it would be better to use an int index for country, belief and job
     string name, surname, country, belief, job, email, birthdate;
     int sins[7];
@@ -29,6 +31,8 @@ struct Human{
     Human(){
         id = 0;
         generation = 0;
+        arrayPosition = 0;
+        state = 0;
         name = "";
         surname = "";
         country = "";
@@ -46,6 +50,8 @@ struct Human{
     Human(int _id){
         id = _id;
         generation = 0;
+        arrayPosition = 0;
+        state = 0;
         name = "";
         surname = "";
         country = "";
@@ -63,6 +69,8 @@ struct Human{
         // TODO: check if int _friends is correct or if it should be filled within this struct (in other words, it should recieve the human vector and randomize it here)
         id = _id;
         generation = _generation;
+        arrayPosition = 0;
+        state = 0;
         name = _name;
         surname = _surname;
         country = _country;
@@ -84,6 +92,22 @@ struct Human{
 
     int getGeneration(){
         return generation;
+    }
+
+    int getArrayPosition(){
+        return arrayPosition;
+    }
+
+    int getState(){
+        return state;
+    }
+
+    void setState(int _state){
+        state = _state;
+    }
+
+    void setArrayPosition(int _arrayPosition){
+        arrayPosition = _arrayPosition;
     }
 
     string getName(){
@@ -220,6 +244,17 @@ struct TreeOfLife{
         return _node;
     }
 
+    int sizeTree(HumanNode* _human){
+        if (_human == NULL || _human -> getHuman() == NULL)
+            return 0;
+        else
+            return 1 + sizeTree(_human -> getLeft()) + sizeTree(_human -> getRight());
+    }
+
+    int sizeTree(){
+        return sizeTree(root);
+    }
+
     void inOrder(){
         inOrder(root);
     }
@@ -231,7 +266,7 @@ struct TreeOfLife{
     void inOrder(HumanNode* _node){
         if (_node != NULL){
             inOrder(_node -> getLeft());
-            cout << _node -> getId() << "  ";
+            cout << _node -> getId() << ",";
             inOrder(_node -> getRight());
         }
     }
@@ -242,6 +277,21 @@ struct TreeOfLife{
             preOrder(_node -> getLeft());
             preOrder(_node -> getRight());
         }
+    }
+
+    void emptyTree(HumanNode* _node){
+        if (_node != NULL){
+            emptyTree(_node -> getLeft());
+            emptyTree(_node -> getRight());
+            _node->setRight(NULL);
+            _node->setLeft(NULL);
+            delete _node;
+        }
+    }
+
+    void emptyTree(){
+        emptyTree(root);
+        root = NULL;
     }
 };
 
@@ -388,5 +438,133 @@ struct HumanSinHeap {
 // Includes of structs that use this one as sort of a "base struct"
 #include "Inferno.h"
 #include "Family.h"
+
+struct HumanWorld{
+    // Attributes
+    // Sorted by id
+    Human* humans[100000];
+    vector<int> humansIds;
+    int humansCount;
+    TreeOfLife* treeOfLife;
+
+    HumanWorld(){
+        humansCount = 0;
+        srand(time(0));
+        for (int i = 0; i < 100000; i++){
+            humans[i] = NULL;
+            humansIds.push_back(i);
+        }
+        treeOfLife = new TreeOfLife();
+    }
+
+    HumanWorld(TreeOfLife* _treeOfLife){
+        humansCount = 0;
+        srand(time(0));
+        for (int i = 0; i < 100000; i++){
+            humans[i] = NULL;
+            humansIds.push_back(i);
+        }
+        treeOfLife = _treeOfLife;
+    }
+
+    void addHuman(Human* humanToAdd){
+        if (humansCount == 0){
+            humans[0] = humanToAdd;
+            humanToAdd -> setArrayPosition(0);
+            humansCount++;
+            return;
+        }
+        int id = humanToAdd -> getId();
+        for (int i = 0; i < humansCount; i++){
+            if (humans[i]->getId() < id){
+                continue;
+            }else if (humans[i]->getId() > id){
+                for (int j = humansCount; j > i; j--){
+                    humans[j] = humans[j - 1];
+                    humans[j] -> setArrayPosition(j);
+                }
+                humans[i] = humanToAdd;
+                humanToAdd -> setArrayPosition(i);
+                humansCount++;
+                return;
+            }
+        }
+        humans[humansCount++] = humanToAdd;
+    }
+
+    Human* getHuman(int id){
+        for (int i = 0; i < humansCount; i++){
+            if (humans[i]->getId() == id){
+                return humans[i];
+            }
+        }
+        return NULL;
+    }
+
+    Human* generateRandomHuman(){
+        // TODO: has to be changed to generate a random human, including all attributes
+        int id = rand() % humansIds.size();
+        int idHuman = humansIds[id];
+        humansIds.erase(humansIds.begin() + id);
+        return new Human(idHuman);
+    }
+
+    int getTreeSize(){
+        int treeSize = humansCount * 0.01;
+        while (!(treeSize && (0 == (treeSize & (treeSize - 1)))))
+            treeSize++;
+        if (treeSize != 1) treeSize--;
+        cout << "Tree size: " << treeSize << endl;
+        return treeSize;
+    }
+
+    void insertTree(Human* humanArray[], int start, int end, int size, int levelMax, int level = 0){
+        if (start >= end || level >= levelMax)
+            return;
+        int middle = (start + end) / 2;
+        // Check if the middle is a valid human, in other words, if it is not in hell or heaven
+        while (humanArray[middle]->getState() != 0){
+            middle--;
+            if (middle < start){
+                return;
+            }
+        }
+        treeOfLife->insert(humanArray[middle]);
+        level++;
+        insertTree(humanArray, start, middle, size, levelMax, level);
+        insertTree(humanArray, middle + 1, end, size, levelMax, level);
+    }
+
+    void buildTree(){
+        treeOfLife->emptyTree();
+        int treeSize = getTreeSize();
+        insertTree(humans, 0, humansCount - 1, treeSize, (int)log2(treeSize + 1));
+    }
+
+    void generateRandomHumans(int amount){
+        if (amount + humansCount > 100000){
+            cout << "Not enough space for " << amount << " humans" << endl;
+            return;
+        }
+        for (int i = 0; i < amount; i++){
+            addHuman(generateRandomHuman());
+        }
+        buildTree();
+    }
+
+    void printHumans(){
+        for (int i = 0; i < humansCount; i++){
+            if (humans[i] == NULL){
+                break;
+            }else{
+                // cout << i << " - " << humans[i]->getId() << endl;
+                cout << humans[i]->getId() <<  ",";
+            }
+        }
+        cout << endl;
+    }
+};
+
+// Includes of structs that use this one as sort of a "base struct"
 
 // Function logic
