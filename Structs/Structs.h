@@ -1,6 +1,7 @@
 // Includes all necessary libraries, this will be "inherit" by all files that include this file or files included in this file.
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 // Declare namespace
 using namespace std;
@@ -232,6 +233,17 @@ struct TreeOfLife{
         return _node;
     }
 
+    int sizeTree(HumanNode* _human){
+        if (_human == NULL || _human -> getHuman() == NULL)
+            return 0;
+        else
+            return 1 + sizeTree(_human -> getLeft()) + sizeTree(_human -> getRight());
+    }
+
+    int sizeTree(){
+        return sizeTree(root);
+    }
+
     void inOrder(){
         inOrder(root);
     }
@@ -243,7 +255,7 @@ struct TreeOfLife{
     void inOrder(HumanNode* _node){
         if (_node != NULL){
             inOrder(_node -> getLeft());
-            cout << _node -> getId() << "  ";
+            cout << _node -> getId() << ",";
             inOrder(_node -> getRight());
         }
     }
@@ -254,6 +266,18 @@ struct TreeOfLife{
             preOrder(_node -> getLeft());
             preOrder(_node -> getRight());
         }
+    }
+
+    void emptyTree(HumanNode* _node){
+        if (_node != NULL){
+            emptyTree(_node -> getLeft());
+            emptyTree(_node -> getRight());
+            delete _node;
+        }
+    }
+
+    void emptyTree(){
+        emptyTree(root);
     }
 };
 
@@ -329,6 +353,7 @@ struct HumanWorld{
     Human* humans[100000];
     vector<int> humansIds;
     int humansCount;
+    TreeOfLife* treeOfLife;
 
     HumanWorld(){
         humansCount = 0;
@@ -337,6 +362,17 @@ struct HumanWorld{
             humans[i] = NULL;
             humansIds.push_back(i);
         }
+        treeOfLife = new TreeOfLife();
+    }
+
+    HumanWorld(TreeOfLife* _treeOfLife){
+        humansCount = 0;
+        srand(time(0));
+        for (int i = 0; i < 100000; i++){
+            humans[i] = NULL;
+            humansIds.push_back(i);
+        }
+        treeOfLife = _treeOfLife;
     }
 
     void addHuman(Human* humanToAdd){
@@ -381,6 +417,31 @@ struct HumanWorld{
         return new Human(idHuman);
     }
 
+    int getTreeSize(){
+        int treeSize = humansCount * 0.01;
+        while (!(treeSize && (0 == (treeSize & (treeSize - 1)))))
+            treeSize++;
+        if (treeSize != 1) treeSize--;
+        cout << "Tree size: " << treeSize << endl;
+        return treeSize;
+    }
+
+    void insertTree(Human* humanArray[], int start, int end, int size, int levelMax, int level = 0){
+        if (start >= end || level >= levelMax)
+            return;
+        int middle = (start + end) / 2;
+        treeOfLife->insert(humanArray[middle]);
+        level++;
+        insertTree(humanArray, start, middle, size, levelMax, level);
+        insertTree(humanArray, middle + 1, end, size, levelMax, level);
+    }
+
+    void buildTree(){
+        treeOfLife->emptyTree();
+        int treeSize = getTreeSize();
+        insertTree(humans, 0, humansCount - 1, treeSize, (int)log2(treeSize + 1));
+    }
+
     void generateRandomHumans(int amount){
         if (amount + humansCount > 100000){
             cout << "Not enough space for " << amount << " humans" << endl;
@@ -389,6 +450,7 @@ struct HumanWorld{
         for (int i = 0; i < amount; i++){
             addHuman(generateRandomHuman());
         }
+        buildTree();
     }
 
     void printHumans(){
@@ -396,9 +458,11 @@ struct HumanWorld{
             if (humans[i] == NULL){
                 break;
             }else{
-                cout << i << " - " << humans[i]->getId() << endl;
+                // cout << i << " - " << humans[i]->getId() << endl;
+                cout << humans[i]->getId() <<  ",";
             }
         }
+        cout << endl;
     }
 };
 
