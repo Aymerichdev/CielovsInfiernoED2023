@@ -20,4 +20,17 @@ int main() {
     heap.insert(2);
     heap.insert(8);
     heap.print();
+
+    HumanSinHeap sinHeap = HumanSinHeap(0);
+    Human* h1 = new Human(1);
+    Human* h2 = new Human(2);
+    Human* h3 = new Human(3);
+    h1->sins[0] = 5;
+    h2->sins[0] = 3;
+    h3->sins[0] = 1;
+    sinHeap.insert(h1);
+    sinHeap.insert(h2);
+    sinHeap.insert(h3);
+    sinHeap.print();
+
 }
