@@ -449,8 +449,15 @@ struct HumanWorld{
     }
 
     void insertTree(Human* humanArray[], int start, int end, int size, int levelMax, int level = 0){
-        if (start >= end || level >= levelMax)
+        if (levelMax == 1){
+            treeOfLife->insert(humanArray[(humansCount - 1) / 2]);
             return;
+        }
+        if (start >= end || level >= levelMax){
+            if (treeOfLife->getRoot() == NULL || treeOfLife->getRoot()->getHuman() == NULL)
+                treeOfLife->insert(humanArray[start]);
+            return;
+        }
         int middle = (start + end) / 2;
         // Check if the middle is a valid human, in other words, if it is not in hell or heaven
         while (humanArray[middle]->getState() != 0){
