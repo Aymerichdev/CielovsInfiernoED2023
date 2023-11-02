@@ -19,30 +19,36 @@ int main() {
     cout << endl << endl;
 
     // Test for Maxheap Struct
-    cout << "Maxheap" << endl;
-    Maxheap heap;
-    heap.insert(1);
-    heap.insert(4);
-    heap.insert(6);
-    heap.insert(2);
-    heap.insert(8);
-    heap.print();
+    // cout << "Maxheap" << endl;
+    // Maxheap heap;
+    // heap.insert(1);
+    // heap.insert(4);
+    // heap.insert(6);
+    // heap.insert(2);
+    // heap.insert(8);
+    // heap.print();
 
-    HumanSinHeap sinHeap = HumanSinHeap(0);
+    HumanSinHeap* sinHeap = new HumanSinHeap(0);
     Human* h1 = new Human(1);
     Human* h2 = new Human(2);
     Human* h3 = new Human(3);
     h1->sins[0] = 5;
     h2->sins[0] = 3;
     h3->sins[0] = 1;
-    sinHeap.insert(h1);
-    sinHeap.insert(h2);
-    sinHeap.insert(h3);
-    sinHeap.print();
-    inferno inferno;
-    inferno.Demons[0]->push_back(sinHeap);
-    inferno.Demons[4]->push_back(sinHeap);
-    inferno.print();
+    sinHeap->insert(h1);
+    sinHeap->insert(h2);
+    sinHeap->insert(h3);
+    sinHeap->print();
+    TreeOfLife* tree2 = new TreeOfLife();
+    HumanWorld* mundo = new HumanWorld(tree2);
+    inferno* infierno = new inferno(mundo);
+    mundo->generateRandomHumans(1000);
+    for (int i = 0; i < 30; i++) {
+        mundo->humans[i]->addSin(0, 50);
+    }
+    mundo->humans[0]->surname = "Aymerich";
+    infierno->condenation(0);
+    infierno->print();
     cout << endl << endl;
 
 

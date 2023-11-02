@@ -51,7 +51,7 @@ struct Human{
         id = _id;
         generation = 0;
         arrayPosition = 0;
-        state = 0;
+        state = 0; // 1 dead 2 saved 
         name = "";
         surname = "";
         country = "";
@@ -295,72 +295,6 @@ struct TreeOfLife{
     }
 };
 
-struct Maxheap {
-
-    vector<int> heap;
-    //constructor
-    Maxheap() {
-        heap = {};
-    }
-
-
-    void heapifyUp(int index) {
-        int parentIndex = (index - 1) / 2;
-        while (index > 0 && heap[index] > heap[parentIndex]) {
-            std::swap(heap[index], heap[parentIndex]);
-            index = parentIndex;
-            parentIndex = (index - 1) / 2;
-        }
-    }
-
-    void heapifyDown(int index) {
-        int leftChild = 2 * index + 1;
-        int rightChild = 2 * index + 2;
-        int largest = index;
-
-        if (leftChild < heap.size() && heap[leftChild] > heap[largest]) {
-            largest = leftChild;
-        }
-        if (rightChild < heap.size() && heap[rightChild] > heap[largest]) {
-            largest = rightChild;
-        }
-
-        if (largest != index) {
-            std::swap(heap[index], heap[largest]);
-            heapifyDown(largest);
-        }
-    }
-
-    void insert(int value) {
-        heap.push_back(value);
-        heapifyUp(heap.size() - 1);
-    }
-
-    int extractMax() {
-        if (heap.empty()) {
-            throw std::out_of_range("Heap is empty");
-        }
-
-        int maxValue = heap[0];
-        heap[0] = heap.back();
-        heap.pop_back();
-        heapifyDown(0);
-
-        return maxValue;
-    }
-
-    bool isEmpty() const {
-        return heap.empty();
-    }
-
-    void print() const {
-        for (int i = 0; i < heap.size(); ++i) {
-            std::cout << heap[i] << " ";
-        }
-        std::cout << std::endl;
-    }
-};
-
 struct HumanSinHeap {
     std::vector<Human*> heap;
     int choosenSin;
@@ -404,7 +338,7 @@ struct HumanSinHeap {
         }
     }
 
-    void insert( Human* human) {
+    void insert(Human* human) {
         heap.push_back(human);
         heapifyUp(heap.size() - 1);
     }
@@ -428,16 +362,12 @@ struct HumanSinHeap {
 
     void print() const {
         for (int i = 0; i < heap.size(); ++i) {
-            std::cout << heap[i]->getSin(choosenSin) << " ";
+            std::cout << heap[i]->getId() << " ";
+
         }
         std::cout << std::endl;
     }
 };
-
-
-// Includes of structs that use this one as sort of a "base struct"
-#include "Inferno.h"
-#include "Family.h"
 
 struct HumanWorld{
     // Attributes
@@ -565,6 +495,8 @@ struct HumanWorld{
     }
 };
 
+// Includes of structs that use this one as sort of a "base struct"
+#include "Inferno.h"
 // Includes of structs that use this one as sort of a "base struct"
 
 // Function logic
