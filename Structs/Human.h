@@ -60,7 +60,7 @@ struct Human{
 
     void printHuman(){
         cout << "Human: " << id << endl;
-        cout << "State: " << state << endl;
+        cout << "State: ";
         switch (state){
         case 0:
             cout << "Alive" << endl; 

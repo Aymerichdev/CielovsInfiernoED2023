@@ -57,12 +57,13 @@ int main() {
     // Test for HumanWorld Struct
     cout << "HumanWorld" << endl;
     HumanWorld* world = new HumanWorld(tree);
-    world->generateRandomHumans(10);
-    world->printHumans();
+    world->generateRandomHumans(300);
+    // world->printHumans();
     tree->getRoot()->getHuman()->setState(1);
     tree->inOrder();
     // Test for state validation
     world->humans[149]->setState(1);
+    world->humans[149]->printHuman();
     world->humans[150]->setState(1);
     world->humans[151]->setState(1);
     world->humans[152]->setState(1);
