@@ -1,9 +1,9 @@
-struct inferno {
+struct Inferno {
     vector<HumanSinHeap*>* Demons[7] ;
     HumanWorld* world;
 
     //constructor
-    inferno() {
+    Inferno() {
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
         for (int i = 0; i < 7; i++) {
             Demons[i] = new vector<HumanSinHeap*>;
@@ -11,7 +11,7 @@ struct inferno {
         world = new HumanWorld(new TreeOfLife());
     }
 
-    inferno(HumanWorld* _world){
+    Inferno(HumanWorld* _world){
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
         for (int i = 0; i < 7; i++) {
             Demons[i] = new vector<HumanSinHeap*>;
@@ -44,7 +44,7 @@ struct inferno {
         }
     }
     void killhuman(Human* human, int choosensin) {
-        //Kill a human and send him to the inferno
+        //Kill a human and send him to the Inferno
         human->setState(1);
         int sin = human->getSin(choosensin);
         vector<HumanSinHeap*>* demon = Demons[choosensin];
@@ -82,7 +82,7 @@ struct inferno {
             NuevaListaOrdenada->erase(NuevaListaOrdenada->begin());
         }
 
-        //Kills the humans and send them to the inferno
+        //Kills the humans and send them to the Inferno
         for (int i = 0; i < Pecadores->size(); i++) {
             cout << Pecadores->at(i)->getSurname() << endl;
             killhuman(Pecadores->at(i), choosensin);
