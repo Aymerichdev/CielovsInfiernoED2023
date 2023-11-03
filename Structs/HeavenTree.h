@@ -55,7 +55,7 @@ struct HeavenTree{
 
     void fillLevel(){
         for(int i = 0; i < pow(3, size); i++)
-            insert(new Angel(world, inferno, NULL, angelNames->at((rand() % 11)), i + 1, size));
+            insert(new Angel(world, inferno, NULL, angelNames->at((rand() % 10)), i + 1, size));
     }
 
     void salvacion(){
