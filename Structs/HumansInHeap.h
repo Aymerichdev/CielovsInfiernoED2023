@@ -1,14 +1,14 @@
-struct HumansInHeap {
+struct HumanSinHeap {
     std::vector<Human*> heap;
     int choosenSin;
 
     // Constructor
-    HumansInHeap() {
+    HumanSinHeap() {
         heap = {};
         choosenSin = 0;
     }
 
-    HumansInHeap(int _choosenSin) {
+    HumanSinHeap(int _choosenSin) {
         heap = {};
         choosenSin = _choosenSin;
     }

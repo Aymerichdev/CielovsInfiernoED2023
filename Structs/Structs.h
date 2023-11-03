@@ -27,7 +27,7 @@ string randomBirthdate();
 
 #include "TreeOfLife.h"
 
-#include "HumansInHeap.h"
+#include "HumanSinHeap.h"
 
 #include "HumanWorld.h"
 

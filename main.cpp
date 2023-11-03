@@ -28,7 +28,7 @@ int main() {
     // heap.insert(8);
     // heap.print();
 
-    HumansInHeap* sinHeap = new HumansInHeap(0);
+    HumanSinHeap* sinHeap = new HumanSinHeap(0);
     Human* h1 = new Human(1);
     Human* h2 = new Human(2);
     Human* h3 = new Human(3);
