@@ -1,0 +1,10 @@
+Desarrollador de Software
+Profesor
+Cocinero
+Emprendedor
+Chofer
+Doctor
+Cajero
+Banquero
+Sacerdote
+Conserje

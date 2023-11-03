@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <fstream>
 
 // Declare namespace
 using namespace std;
@@ -16,6 +17,8 @@ struct Maxheap;
 struct HumanWorld;
 
 // Function headers
+vector<string>* readFileIntoArray(string filepath, int lines);
+string randomBirthdate();
 
 // Structs
 struct Human{
@@ -110,21 +113,34 @@ struct Human{
         arrayPosition = _arrayPosition;
     }
 
-    string getName(){
-        return name;
+// Function logic
+vector<string>* readFileIntoArray(string filepath, int lines){
+    vector<string>* array = new vector<string>();
+    string line;
+    ifstream myfile(filepath);
+    if (myfile.is_open()){
+        for (int i = 0; i < lines; i++){
+            getline(myfile, line);
+            array->push_back(line);
+        }
+        myfile.close();
+    }else{
+        cout << "Unable to open file";
     }
+    return array;
+}
 
-    string getSurname(){
-        return surname;
-    }
-
-    string getCountry(){
-        return country;
-    }
-
-    string getBelief(){
-        return belief;
-    }
+string randomBirthdate(){
+    int day = rand() % 28 + 1;
+    int month = rand() % 12 + 1;
+    int year = rand() % 60 + 1960;
+    string dayString = to_string(day);
+    string monthString = to_string(month);
+    string yearString = to_string(year);
+    if (day < 10) dayString = "0" + dayString;
+    if (month < 10) monthString = "0" + monthString;
+    return dayString + "/" + monthString + "/" + yearString;
+}
 
     string getJob(){
         return job;
