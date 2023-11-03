@@ -59,13 +59,47 @@ struct HumanSinHeap {
         return maxValue;
     }
 
+    int getMax() const {
+        if (heap.empty()) {
+            throw std::out_of_range("Heap is empty");
+        }
+
+        return heap[0]->getSin(choosenSin);
+    }
+
+    int getSize() const {
+        return heap.size();
+    }
+
+    int getmin() const {
+        if (heap.empty()) {
+            throw std::out_of_range("Heap is empty");
+        }
+        int res = heap[0]->getSin(choosenSin);
+        for (int i = 0; i < heap.size(); i++) {
+            if (heap[i]->getSin(choosenSin) < res) {
+                res = heap[i]->getSin(choosenSin);
+            }        
+        }
+        return res;
+    }
+
+    int getallints() const {
+        int res = 0;
+        for (int i = 0; i < heap.size(); i++) {
+            res += heap[i]->getSin(choosenSin);
+        }
+        return res;
+    }
+
     bool isEmpty() const {
         return heap.empty();
     }
 
     void print() const {
         for (int i = 0; i < heap.size(); ++i) {
-            std::cout << heap[i]->getId() << " ";
+            //imprime los int
+            std::cout << heap[i]->getSin(choosenSin) << " ";
 
         }
         std::cout << std::endl;

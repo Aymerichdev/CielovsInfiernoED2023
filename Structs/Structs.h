@@ -19,7 +19,7 @@ struct HumanWorld;
 // Function headers
 vector<string>* readFileIntoArray(string filepath, int lines);
 string randomBirthdate();
-
+string HoraSistema();
 // Structs
 #include "Human.h"
 
@@ -34,6 +34,14 @@ string randomBirthdate();
 #include "Inferno.h"
 
 // Function logic
+string HoraSistema(){
+    // Retorna la hora y fecha del sistema
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    string hora = to_string(ltm->tm_hour) + ":" + to_string(ltm->tm_min) + ":" + to_string(ltm->tm_sec);
+    string fecha = to_string(ltm->tm_mday) + "/" + to_string(ltm->tm_mon) + "/" + to_string(1900 + ltm->tm_year);
+    return fecha + " " + hora;
+}
 vector<string>* readFileIntoArray(string filepath, int lines){
     vector<string>* array = new vector<string>();
     string line;

@@ -46,10 +46,12 @@ int main() {
     for (int i = 0; i < 30; i++) {
         mundo->humans[i]->addSin(0, 50);
     }
-    mundo->humans[0]->printHuman();
-    mundo->humans[0]->surname = "Aymerich";
-    mundo->humans[0]->printHuman();
+    mundo->humans[15]->sins[0] = 80;
     infierno->condenation(0);
+    cout << infierno->getsinners(0) << endl;
+    cout << infierno->getaverage(0) << endl;
+    cout << infierno->getminsin(0) << endl;
+    cout << infierno->getmaxsin(0) << endl;
     infierno->print();
     cout << endl << endl;
 
