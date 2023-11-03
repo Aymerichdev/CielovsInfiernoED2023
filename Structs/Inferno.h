@@ -1,12 +1,12 @@
 struct inferno {
-    vector<HumanSinHeap*>* Demons[7] ;
+    vector<HumansInHeap*>* Demons[7] ;
     HumanWorld* world;
 
     //constructor
     inferno() {
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
         for (int i = 0; i < 7; i++) {
-            Demons[i] = new vector<HumanSinHeap*>;
+            Demons[i] = new vector<HumansInHeap*>;
         }
         world = new HumanWorld(new TreeOfLife());
     }
@@ -14,7 +14,7 @@ struct inferno {
     inferno(HumanWorld* _world){
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
         for (int i = 0; i < 7; i++) {
-            Demons[i] = new vector<HumanSinHeap*>;
+            Demons[i] = new vector<HumansInHeap*>;
         }
         world = _world;
 
@@ -47,9 +47,9 @@ struct inferno {
         //Kill a human and send him to the inferno
         human->setState(1);
         int sin = human->getSin(choosensin);
-        vector<HumanSinHeap*>* demon = Demons[choosensin];
+        vector<HumansInHeap*>* demon = Demons[choosensin];
         if (demon->size() == 0) {
-            demon->push_back(new HumanSinHeap(choosensin));
+            demon->push_back(new HumansInHeap(choosensin));
             demon->at(0)->insert(human);
             return;
         }
@@ -59,7 +59,7 @@ struct inferno {
                 return;
             }     
         }
-        demon->push_back(new HumanSinHeap(choosensin));
+        demon->push_back(new HumansInHeap(choosensin));
         demon->at(demon->size() - 1)->insert(human);
 
     }
