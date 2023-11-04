@@ -41,7 +41,7 @@ int main() {
     sinHeap->print();
     TreeOfLife* tree2 = new TreeOfLife();
     HumanWorld* mundo = new HumanWorld(tree2);
-    inferno* infierno = new inferno(mundo);
+    Inferno* infierno = new Inferno(mundo);
     mundo->generateRandomHumans(1000);
     for (int i = 0; i < 30; i++) {
         mundo->humans[i]->addSin(0, 50);
@@ -85,7 +85,7 @@ int main() {
     tree->inOrder();
     cout << endl << endl;
 
-    // Test for names, surnames, jobs, beliefs, countries
+    // Test for names, surnames, jobs, beliefs, countries and dates
     cout << "Names, surnames, jobs, beliefs, countries" << endl;
     vector<string>* names = world->names;
     vector<string>* surnames = world->surnames;
@@ -93,34 +93,36 @@ int main() {
     vector<string>* beliefs = world->beliefs;
     vector<string>* countries = world->countries;
     cout << "Names: " << endl;
-    for (int i = 0; i < names->size(); i++) {
+    for (int i = 0; i < names->size(); i++)
         cout << i << ": " << names->at(i) << endl;
-    }
 
     cout << "Surnames: " << endl;
-    for (int i = 0; i < surnames->size(); i++) {
+    for (int i = 0; i < surnames->size(); i++)
         cout << i << ": " << surnames->at(i) << endl;
-    }
 
     cout << "Jobs: " << endl;
-    for (int i = 0; i < jobs->size(); i++) {
+    for (int i = 0; i < jobs->size(); i++)
         cout << i << ": " << jobs->at(i) << endl;
-    }
 
     cout << "Beliefs: " << endl;
-    for (int i = 0; i < beliefs->size(); i++) {
+    for (int i = 0; i < beliefs->size(); i++)
         cout << i << ": " << beliefs->at(i) << endl;
-    }
 
     cout << "Countries: " << endl;
-    for (int i = 0; i < countries->size(); i++) {
+    for (int i = 0; i < countries->size(); i++)
         cout << i << ": " << countries->at(i) << endl;
-    }
+
+    cout << "Dates" << endl;
+    for (int i = 0; i < 10; i++)
+        cout << randomBirthdate() << endl;
 
     cout << endl << endl;
-    
-    cout << "Dates" << endl;
-    for (int i = 0; i < 10; i++) {
-        cout << randomBirthdate() << endl;
-    }
+
+    // Test for HeavenTree, Angel and AngelNode Structs
+    cout << "HeavenTree" << endl;
+    HeavenTree* heaven = new HeavenTree(world, infierno);
+    heaven->start();
+    heaven->salvacion();
+    heaven->salvacion();
+    cout << endl << endl;
 }

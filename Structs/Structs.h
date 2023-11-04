@@ -15,6 +15,9 @@ struct HumanNode;
 struct TreeOfLife;
 struct Maxheap;
 struct HumanWorld;
+struct Angel;
+struct AngelNode;
+struct HeavenTree;
 
 // Function headers
 vector<string>* readFileIntoArray(string filepath, int lines);
@@ -32,6 +35,12 @@ string HoraSistema();
 #include "HumanWorld.h"
 
 #include "Inferno.h"
+
+#include "Angel.h"
+
+#include "AngelNode.h"
+
+#include "HeavenTree.h"
 
 // Function logic
 string HoraSistema(){
