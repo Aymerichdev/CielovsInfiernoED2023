@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <fstream>
+#include <algorithm>
 
 // Declare namespace
 using namespace std;
@@ -17,6 +18,8 @@ struct Maxheap;
 struct HumanWorld;
 struct Angel;
 struct AngelNode;
+struct AvlTree;
+struct HeavenHashTable;
 struct HeavenTree;
 
 // Function headers
@@ -40,8 +43,11 @@ string HoraSistema();
 
 #include "AngelNode.h"
 
-#include "HeavenTree.h"
+#include "AvlTree.h"
 
+#include "HeavenHashTable.h"
+
+#include "HeavenTree.h"
 // Function logic
 string HoraSistema(){
     // Retorna la hora y fecha del sistema

@@ -27,18 +27,8 @@ int main() {
     // heap.insert(2);
     // heap.insert(8);
     // heap.print();
-
-    HumanSinHeap* sinHeap = new HumanSinHeap(0);
-    Human* h1 = new Human(1);
-    Human* h2 = new Human(2);
-    Human* h3 = new Human(3);
-    h1->sins[0] = 5;
-    h2->sins[0] = 3;
-    h3->sins[0] = 1;
-    sinHeap->insert(h1);
-    sinHeap->insert(h2);
-    sinHeap->insert(h3);
-    sinHeap->print();
+    
+    cout << "Inferno" << endl;
     TreeOfLife* tree2 = new TreeOfLife();
     HumanWorld* mundo = new HumanWorld(tree2);
     Inferno* infierno = new Inferno(mundo);
@@ -47,12 +37,17 @@ int main() {
         mundo->humans[i]->addSin(0, 50);
     }
     mundo->humans[15]->sins[0] = 80;
+    mundo->humans[16]->sins[5] = 180;
     infierno->condenation(0);
-    cout << infierno->getsinners(0) << endl;
+    cout << infierno->getmaxsinnerofall() << endl;
     cout << infierno->getaverage(0) << endl;
-    cout << infierno->getminsin(0) << endl;
-    cout << infierno->getmaxsin(0) << endl;
     infierno->print();
+   
+    HeavenTree* heaven = new HeavenTree(mundo, infierno);
+    heaven->start();
+    heaven->salvacion();
+    heaven->hashTable->print();
+    heaven->createlog();
     cout << endl << endl;
 
 
@@ -120,9 +115,5 @@ int main() {
 
     // Test for HeavenTree, Angel and AngelNode Structs
     cout << "HeavenTree" << endl;
-    HeavenTree* heaven = new HeavenTree(world, infierno);
-    heaven->start();
-    heaven->salvacion();
-    heaven->salvacion();
-    cout << endl << endl;
+    
 }

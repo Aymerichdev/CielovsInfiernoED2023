@@ -3,6 +3,8 @@ struct HeavenTree{
     Inferno* inferno;
     AngelNode* root;
     vector<string>* angelNames;
+    HeavenHashTable* hashTable= new HeavenHashTable();
+
     int size;
 
     HeavenTree(){
@@ -53,14 +55,49 @@ struct HeavenTree{
         }       
     }
 
-    void fillLevel(){
-        for(int i = 0; i < pow(3, size); i++)
-            insert(new Angel(world, inferno, NULL, angelNames->at((rand() % 10)), i + 1, size));
+    vector<Angel*> fillLevel(){
+        vector <Angel*> angels;
+        for(int i = 0; i < pow(3, size); i++){
+            Angel* angel = new Angel(world, inferno, NULL, angelNames->at((rand() % 10)), size + 1, size);
+            angels.push_back(angel);
+            insert(angel);  
+        }
+        return angels;
     }
 
     void salvacion(){
         size++;
-        fillLevel();
-        // Add search of most sinned human and save it for each angel
+        vector<Angel*> angels = fillLevel();
+        for(int i = 0; i < angels.size(); i++){
+        Human* human = inferno->getmaxsinnerofall();
+        human->printHuman();
+        if (human == NULL)
+            break;
+        int sin = human->getbiggersinposition();
+        vector<HumanSinHeap*> humansheap = (*inferno->Demons[sin]);
+        HumanSinHeap* heap = humansheap[human->heapPosition];
+        heap->print();
+        heap->deleteHuman(human);
+        heap->print();
+        Angel* angel = angels.at(i);
+        angel->saveHuman(human);
+        hashTable->insert(human);   
+        }
+        
+    }
+    
+    void createlog(){
+        string str = "\t El cielo\n";
+        for (int i = 0; 0 < 1000; i++){
+            if (hashTable->table[i] != NULL){
+                str += stringforarchive(hashTable->table[i], str);
+            }
+        }
+
+        //crea el archivo S
+        ofstream file;
+        file.open("Logs/HeavenLog.txt");
+        file << str;
+        file.close();
     }
 };

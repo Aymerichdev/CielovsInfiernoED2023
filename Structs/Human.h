@@ -6,6 +6,8 @@ struct Human{
     int sins[7];
     vector<Human*> friends;
     int socialNetworks[7];
+    Angel* angel;
+    int heapPosition= -1;
 
     // Constructors
     Human(){
@@ -22,6 +24,7 @@ struct Human{
             sins[i] = 0;
             socialNetworks[i] = 0;
         }
+        angel = NULL;  
     }
 
     // For testing purposes
@@ -39,6 +42,7 @@ struct Human{
             sins[i] = 0;
             socialNetworks[i] = 0;
         }
+        angel = NULL;
     }
 
     Human(int _id, string _name, string _surname, string _country, string _belief, string _job, string _birthdate){
@@ -134,6 +138,16 @@ struct Human{
 
     string getBirthdate(){
         return birthdate;
+    }
+
+    int getbiggersinposition (){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            if (sins[i] > res) {
+                res = i;
+            }
+        }
+        return res;
     }
 
     int getSin(int index){

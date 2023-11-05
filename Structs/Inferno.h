@@ -1,6 +1,7 @@
 struct Inferno {
     vector<HumanSinHeap*>* Demons[7] ;
     HumanWorld* world;
+    int archivenamecounter[7] = {0,0,0,0,0,0,0};
     //constructor
     Inferno() {
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
@@ -50,16 +51,19 @@ struct Inferno {
         if (demon->size() == 0) {
             demon->push_back(new HumanSinHeap(choosensin));
             demon->at(0)->insert(human);
+            human->heapPosition = 0;
             return;
         }
         for (int i = 0; i < demon->size(); i++) {            
             if ((*demon)[i]->heap[0]->getSurname() == human->getSurname() && (*demon)[i]->heap[0]->getCountry() == human->getCountry()) {
                 (*demon)[i]->insert(human);
+                human->heapPosition = i;
                 return;
             }     
         }
         demon->push_back(new HumanSinHeap(choosensin));
         demon->at(demon->size() - 1)->insert(human);
+        human->heapPosition = demon->size() - 1;
 
     }
 
@@ -94,6 +98,9 @@ struct Inferno {
         vector<Human*>* NuevaListaOrdenada = new vector<Human*>;
         
         for (int i = 0; i < totalhuman-1; i++) {
+            if (world->humans[i]->getState() != 0) {
+                continue;
+            }
             insert(world->humans[i], NuevaListaOrdenada, choosensin);
         }
         
@@ -116,25 +123,25 @@ struct Inferno {
         ofstream log;
         switch (choosensin) {
             case 0:
-                log.open("Logs/Lucifer.txt");
+                log.open("Logs/Lucifer" + to_string(archivenamecounter[0]++) + ".txt");
                 break;
             case 1:
-                log.open("Logs/Belcebu.txt");
+                log.open("Logs/Belcebu" + to_string(archivenamecounter[1]++) + ".txt");
                 break;
             case 2:
-                log.open("Logs/Satan.txt");
+                log.open("Logs/Satan" + to_string(archivenamecounter[2]++) + ".txt");
                 break;
             case 3:
-                log.open("Logs/Abadon.txt");
+                log.open("Logs/Abadon" + to_string(archivenamecounter[3]++) + ".txt");
                 break;
             case 4:
-                log.open("Logs/Mammon.txt");
+                log.open("Logs/Mammon" + to_string(archivenamecounter[4]++) + ".txt");
                 break;
             case 5:
-                log.open("Logs/Beelfegor.txt");
+                log.open("Logs/Beelfegor" + to_string(archivenamecounter[5]++) + ".txt");    
                 break;
             case 6:
-                log.open("Logs/Asmodeo.txt");
+                log.open("Logs/Asmodeo" + to_string(archivenamecounter[6]++) + ".txt");
                 break;
         }
         log << bitacora;
@@ -157,6 +164,9 @@ struct Inferno {
     }
 
     int getminsin(int choosensin) {
+        if (Demons[choosensin]->size() == 0) {
+            return 0;
+        }
         int res = Demons[choosensin]->at(0)->getmin();
         for (int i = 0; i < Demons[choosensin]->size(); i++) {
             if (Demons[choosensin]->at(i)->getmin() < res) {
@@ -166,11 +176,62 @@ struct Inferno {
         return res;
     }
 
-    int getmaxsin(int choosensin) {
-        int res = Demons[choosensin]->at(0)->getMax();
+    Human * getminsinnerofallsins() {
+        int cont = getminsin(0);
+        Human * res; 
+        for (int i = 0; i < 7; i++) {
+            if (getminsin(i) < cont) {
+                cont = getminsin(i);
+                res = Demons[i]->at(0)->heap[0];
+            }
+        }
+        return res;
+    }
+
+    int getmaxsinposition(int choosensin) {
+        if (Demons[choosensin]->size() == 0) {
+            return 0;
+        }
+        int res = 0;
         for (int i = 0; i < Demons[choosensin]->size(); i++) {
-            if (Demons[choosensin]->at(i)->getMax() > res) {
+            if (Demons[choosensin]->at(i)->isEmpty()) {
+                continue;
+            }
+            if (Demons[choosensin]->at(i)->getMax() > Demons[choosensin]->at(res)->getMax()) 
+                res = i;
+            
+        }
+        return res;
+    }
+
+    int getmaxsin(int choosensin) {
+        if (Demons[choosensin]->size() == 0) {
+            return 0;
+        }
+
+        int res = 0;
+        for (int i = 0; i < Demons[choosensin]->size(); i++) {
+            if (Demons[choosensin]->at(i)->isEmpty()) {
+                continue;
+            }
+            if (Demons[choosensin]->at(i)->getMax() > res) 
                 res = Demons[choosensin]->at(i)->getMax();
+            
+        }
+        return res;
+    }
+
+    Human * getmaxsinnerofall() {
+        int cont = 0;
+        Human * res = NULL; 
+        for (int i = 0; i < 7; i++) {
+            if (Demons[i]->size() == 0) {
+                continue;
+            }
+            if (getmaxsin(i) > cont) {
+                cont = getmaxsin(i);
+                int pos = getmaxsinposition(i);
+                res = Demons[i]->at(pos)->heap[0];
             }
         }
         return res;
