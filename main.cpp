@@ -24,7 +24,10 @@ int main() {
     TreeOfLife* tree2 = new TreeOfLife();
     HumanWorld* mundo = new HumanWorld(tree2);
     Inferno* infierno = new Inferno(mundo);
+    HeavenTree* heaven = new HeavenTree(mundo, infierno);
+    winner(infierno, mundo, heaven);
     mundo->generateRandomHumans(10000);
+    Familysearch("Aymerich", "Costa Rica", mundo);
     for (int i = 0; i < 300; i++) {
         mundo->humans[i]->addSin(0, 50);
     }
@@ -44,20 +47,22 @@ int main() {
     cout << infierno->getaverage(0) << endl;
     
     infierno->createlog();
-    HeavenTree* heaven = new HeavenTree(mundo, infierno);
+
     heaven->start();
     heaven->salvacion();
     heaven->salvacion();
     heaven->hashTable->print();
 
     cout << endl << endl;
-    cout << infierno->infernempty() << endl;
+    
     infierno->createlog();
     cout << endl << endl;
     
     heaven->createlog();
+    
     cout << endl << endl;
-
+    Familysearch("Aymerich", "Costa Rica", mundo);
+    winner(infierno, mundo, heaven);
 
     // Test for HumanWorld Struct
     cout << "HumanWorld" << endl;

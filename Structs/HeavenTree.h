@@ -4,7 +4,8 @@ struct HeavenTree{
     AngelNode* root;
     vector<string>* angelNames;
     HeavenHashTable* hashTable= new HeavenHashTable();
-    int cont = 1;
+    int contdelogs = 1;
+    int conthumans= 0;
     int size;
     HeavenTree(){
         world = NULL;
@@ -107,18 +108,18 @@ struct HeavenTree{
         }
         //crea el archivo S
         ofstream file;
-        file.open("Logs/Salvacion"+ to_string(cont++) +".txt");
+        file.open("Logs/Salvacion"+ to_string(contdelogs++) +".txt");
         file << str;
         file.close();
     }
     
     void createlog(){
         string str = "";
-        int cont = 0;
+        conthumans = 0;
         for (int i = 0; i <= 999; i++){
             int j = hashTable->table[i]->key;
             if (j != 0){
-                cont+= sizeavl(hashTable->table[i]);
+                conthumans+= sizeavl(hashTable->table[i]);
                 str += "\t\t\tBucket " + to_string(i) + "\n\n" +stringforarchive(hashTable->table[i]); + "\n\n";
             }
         }
@@ -126,7 +127,7 @@ struct HeavenTree{
         ofstream file;
         file.open("Logs/HeavenLog.txt");
         file << "\t\t\t El cielo\n";
-        file << "\t\tCantidad de humanos salvados: " << cont << "\n\n";
+        file << "\t\tCantidad de humanos salvados: " << conthumans << "\n\n";
         file << str;
         file.close();
         

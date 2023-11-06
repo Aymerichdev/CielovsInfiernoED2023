@@ -84,3 +84,78 @@ string randomBirthdate(){
     if (month < 10) monthString = "0" + monthString;
     return dayString + "/" + monthString + "/" + yearString;
 }
+
+void winner(Inferno* infern, HumanWorld* world, HeavenTree* Heaven){
+    string res = "\t Se decidira el ganador de la lucha entre el bien y el mal\n\n";
+    int humantotal = world->humansCount;
+    int pecadores = infern->conthumans;
+    int salvados = Heaven->conthumans;
+    int humanosvivos = humantotal - pecadores - salvados;
+    
+    res += "\tHumanos totales: " + to_string(humantotal) + "\n";
+    res += "\tHumanos muertos: " + to_string(pecadores + salvados) + "\n";
+    res += "\tHumanos vivos: " + to_string(humanosvivos) + "\n";
+    res += "\tHumanos en el cielo: " + to_string(salvados) + "\n";
+    res += "\tHumanos en el infierno: " + to_string(pecadores) + "\n\n";
+
+    //Winner
+    if (salvados > pecadores)
+        res += "\tEl bien ha ganado la batalla\n\n";
+    else if (salvados < pecadores)
+        res += "\tEl mal ha ganado la batalla\n\n";
+    else 
+        res += "\tLa batalla ha terminado en empate\n\n";
+
+    //archive creation
+    ofstream myfile;
+    myfile.open("Logs/Ganador.txt");
+    myfile << res;
+    myfile.close();
+}
+
+void Familysearch(string surname, string country, HumanWorld* world){
+    int pecadores = 0;
+    int salvados = 0;
+    int vivos= 0;
+    int total = 0;
+    string res = "\tBusqueda de familiares " + surname + " "+ country + "\n\n";
+    for (int i = 0; i < world->humansCount-1; i++){
+        Human* human = world->humans[i];
+        if (human->getSurname() == surname && human->getCountry() == country){
+            if (human->getState() == 1){
+                pecadores++;
+                res += "\t" + human->getinfo() + " esta en el infierno\n\n";
+            }
+            else if (human->getState() == 2){
+                salvados++;
+                res += "\t" + human->getinfo() + " esta en el cielo\n\n";
+            }
+            else{
+                vivos++;
+                res += "\t" + human->getinfo() + " esta vivo\n\n";
+            }
+        }
+    }
+    total = pecadores + salvados + vivos;
+    res += "\n\tSe encontraron " + to_string(total)+ "\n";
+    
+    //porcentaje de pecadores
+    res+= "\tPecadores " + to_string(pecadores) + "\n";
+    float porcentaje = (float)pecadores / (float)total;
+    res += "\tPorcentaje de pecadores: " + to_string(porcentaje*100) + "%\n\n";
+
+    //porcentaje de salvados
+    res+= "\tSalvados " + to_string(salvados) + "\n";
+    porcentaje = (float)salvados / (float)total;
+    res += "\tPorcentaje de salvados: " + to_string(porcentaje*100) + "%\n\n";
+    //porcentaje de vivos
+    res+= "\tVivos " + to_string(vivos) + "\n";
+    porcentaje = (float)vivos / (float)total;
+    res += "\tPorcentaje de vivos: " + to_string(porcentaje*100) + "%\n\n";
+
+    //creacion del archivo
+    ofstream myfile;
+    myfile.open("Logs/BusquedaFamiliares" + surname + country +".txt");
+    myfile << res;
+    myfile.close();
+}

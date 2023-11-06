@@ -2,6 +2,7 @@ struct Inferno {
     vector<HumanSinHeap*>* Demons[7] ;
     HumanWorld* world;
     int archivenamecounter[7] = {0,0,0,0,0,0,0};
+    int conthumans = 0;
     //constructor
     Inferno() {
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
@@ -307,7 +308,7 @@ struct Inferno {
             return;
         }
 
-        int cont = 0;
+        conthumans = 0;
         for(int i = 0; i < 7; i++){
             str += "\tDemonio " + givedemonname(i) + "\n";
             for (int j = 0; j < Demons[i]->size(); j++) {
@@ -317,13 +318,13 @@ struct Inferno {
                 str += " Heap de la familia " + (*Demons[i])[j]->surname + " " + (*Demons[i])[j]->country + "\n";
                 for (int k = 0; k < Demons[i]->at(j)->getSize(); k++) {
                 str += Demons[i]->at(j)->heap[k]->getinfo() + " condenado por " + to_string(Demons[i]->at(j)->heap[k]->sins[i]) + "\n\n";
-                cont++;
+                conthumans++;
                 }
             }
         }
-        str += "\nTotal de pecadores: " + to_string(cont) + "\n";
+        str += "\nTotal de pecadores: " + to_string(conthumans) + "\n";
         str += "Total de pecados: " + to_string(overallsins()) + "\n";
-        str += "Promedio de pecados por pecador: " + to_string(overallsins() / cont) + "\n";
+        str += "Promedio de pecados por pecador: " + to_string(overallsins() / conthumans) + "\n";
         Human * human = getmaxsinnerofall();
         str += "Mayor pecador: " + human->getinfo() +" con "+ to_string(human->getbiggersin()) + " pecados de "+  +"\n";
 
