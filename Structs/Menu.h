@@ -1,0 +1,82 @@
+TreeOfLife* tree = new TreeOfLife();
+HumanWorld* world = new HumanWorld(tree);
+Inferno* hell = new Inferno(world);
+HeavenTree* heaven = new HeavenTree(world, hell);
+
+void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
+    bool IsRunning = 1;
+
+    while (IsRunning){
+    cout << "\nBienvenido a la batalla entre el infierno y el cielo" << endl;
+    cout << "Escoja una opcion" << endl;
+    cout << "1. Agregar humanos al mundo" << endl;
+    cout << "2. Publicaciones en redes" << endl;
+    cout << "3. Buscar humano por id" << endl;
+    cout << "4. Busqueda por familia" << endl;
+    cout << "5. Condenacion" << endl;
+    cout << "6. Salvacion" << endl;
+    cout << "7. Ver infierno" << endl;
+    cout << "8. Ver cielo" << endl;
+    cout << "9. Determinar ganador" << endl;
+    cout << "10. Salir\n\n" << endl;
+
+    string preopcion;
+    getline(cin, preopcion);
+    int opcion = NumberCoversion(preopcion);
+    if (opcion == -1)
+        Menu(world, heaven, hell);
+         
+
+    switch (opcion){
+        case 1:
+        Addhumans(world);
+        break;
+
+        case 2:
+        cout << "Publicaciones" << endl;
+        //Publicaciones TODO
+        break;
+
+        case 3:
+        cout << "Buscar humano por id" << endl;
+        //Tony labure
+        break;
+
+        case 4:
+        SearchFamily(world);
+        break;
+
+        case 5: 
+        condenation(hell);
+        break;
+
+        case 6:
+        salvation(heaven);
+        break;
+
+        case 7:
+        hell->createlog();
+        cout << "Se ha creado el log del infierno" << endl;
+        break;
+
+        case 8:
+        heaven->createlog();
+        cout << "Se ha creado el log del cielo" << endl;
+        break;
+
+        case 9:
+        winner(hell, world, heaven);
+        cout << "Se ha creado el archivo con toda la informacion de la batalla" << endl;
+        break;
+
+        case 10:
+        IsRunning = 0;
+        break;
+
+    }
+    
+
+
+    
+    }
+}

@@ -4,6 +4,7 @@
 #include <cmath>
 #include <fstream>
 #include <algorithm>
+#include <cctype>
 
 // Declare namespace
 using namespace std;
@@ -14,6 +15,7 @@ using namespace std;
 struct Human;
 struct HumanNode;
 struct TreeOfLife;
+struct Inferno;
 struct Maxheap;
 struct HumanWorld;
 struct Angel;
@@ -21,11 +23,16 @@ struct AngelNode;
 struct AvlTree;
 struct HeavenHashTable;
 struct HeavenTree;
+struct FunctionsMenu;
+struct Menu;
 
 // Function headers
 vector<string>* readFileIntoArray(string filepath, int lines);
 string randomBirthdate();
 string HoraSistema();
+void Familysearch(string, string, HumanWorld*);
+int NumberCoversion(string number);
+void winner(Inferno* infern, HumanWorld* world, HeavenTree* Heaven);
 // Structs
 #include "Human.h"
 
@@ -48,6 +55,10 @@ string HoraSistema();
 #include "HeavenHashTable.h"
 
 #include "HeavenTree.h"
+
+#include "FunctionsMenu.h"
+
+#include "Menu.h"
 // Function logic
 string HoraSistema(){
     // Retorna la hora y fecha del sistema
@@ -158,4 +169,22 @@ void Familysearch(string surname, string country, HumanWorld* world){
     myfile.open("Logs/BusquedaFamiliares" + surname + country +".txt");
     myfile << res;
     myfile.close();
+}
+
+int NumberCoversion(string number){
+    try {
+        return stoi(number);
+    }
+    catch (exception e){
+        cout << "Ingrese un numero valido" << endl;
+        return -1;
+    }
+}
+
+string Uppercase(string str){
+    string res = "";
+    for (int i = 0; i < str.length(); i++){
+        res += toupper(str[i]);
+    }
+    return res;
 }
