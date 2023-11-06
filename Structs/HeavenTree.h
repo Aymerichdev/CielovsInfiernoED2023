@@ -70,15 +70,27 @@ struct HeavenTree{
         vector<Angel*> angels = fillLevel();
         for(int i = 0; i < angels.size(); i++){
         Human* human = inferno->getmaxsinnerofall();
-        human->printHuman();
-        if (human == NULL)
+        if (human == NULL){
+            cout << "No hay humanos en el infierno" << endl;
             break;
+        }
+
         int sin = human->getbiggersinposition();
+
         vector<HumanSinHeap*> humansheap = (*inferno->Demons[sin]);
+        if (humansheap.size() == 0){
+        cout << "No hay humanos en el infierno" << endl;
+        break;
+        }
+
         HumanSinHeap* heap = humansheap[human->heapPosition];
-        heap->print();
+        if (heap->isEmpty()){
+        cout << "No hay humanos en el infierno" << endl;
+        break;
+        }
+        
+        
         heap->deleteHuman(human);
-        heap->print();
         Angel* angel = angels.at(i);
         angel->saveHuman(human);
         hashTable->insert(human);   
@@ -87,17 +99,19 @@ struct HeavenTree{
     }
     
     void createlog(){
-        string str = "\t El cielo\n";
-        for (int i = 0; 0 < 1000; i++){
-            if (hashTable->table[i] != NULL){
-                str += stringforarchive(hashTable->table[i], str);
+        string str = "";
+        for (int i = 0; i <= 999; i++){
+            int j = hashTable->table[i]->key;
+            if (j != 0){
+                str += stringforarchive(hashTable->table[i]);
             }
         }
-
         //crea el archivo S
         ofstream file;
         file.open("Logs/HeavenLog.txt");
+        file << "\t El cielo\n";
         file << str;
         file.close();
+        
     }
 };

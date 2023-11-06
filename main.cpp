@@ -32,13 +32,17 @@ int main() {
     TreeOfLife* tree2 = new TreeOfLife();
     HumanWorld* mundo = new HumanWorld(tree2);
     Inferno* infierno = new Inferno(mundo);
-    mundo->generateRandomHumans(1000);
+    mundo->generateRandomHumans(100);
     for (int i = 0; i < 30; i++) {
         mundo->humans[i]->addSin(0, 50);
     }
+
     mundo->humans[15]->sins[0] = 80;
-    mundo->humans[16]->sins[5] = 180;
     infierno->condenation(0);
+    infierno->condenation(0);
+    cout << infierno->getmaxsin(0) << endl;
+    cout << infierno->getmaxsin(5) << endl;
+
     cout << infierno->getmaxsinnerofall() << endl;
     cout << infierno->getaverage(0) << endl;
     infierno->print();
@@ -46,7 +50,11 @@ int main() {
     HeavenTree* heaven = new HeavenTree(mundo, infierno);
     heaven->start();
     heaven->salvacion();
+    heaven->salvacion();
+    
+    cout << endl << endl;
     heaven->hashTable->print();
+    
     heaven->createlog();
     cout << endl << endl;
 

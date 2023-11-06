@@ -1,8 +1,13 @@
 struct HeavenHashTable {
     
-    HeavenHashTable() : table_size(1000), table(1000, nullptr) {}
+    HeavenHashTable() : table_size(1000), table(1000, nullptr) {
 
+        for (int i = 0; i < 1000; i++) {
+            table[i] = new AVLNode();
+        }
+    }
 
+    
     // Función de hash personalizada que utiliza el ID del humano
     int hash(int id) {
         return id / 100;
@@ -11,6 +16,7 @@ struct HeavenHashTable {
     void insert(Human* human) {
         int index = hash(human->id);
         table[index] = insert(table[index], human);
+        deleteNode(table[index], 0);
         inOrderTraversal(table[index]);
     }
 

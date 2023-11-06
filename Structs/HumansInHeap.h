@@ -61,7 +61,8 @@ struct HumanSinHeap {
     
     int getMax() const {
         if (heap.empty()) {
-            throw std::out_of_range("Heap is empty");
+            cout << ("Heap is empty") << endl;
+            return 0;
         }
 
         return heap[0]->getSin(choosenSin);

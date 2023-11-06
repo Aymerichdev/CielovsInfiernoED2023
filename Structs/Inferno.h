@@ -101,6 +101,9 @@ struct Inferno {
             if (world->humans[i]->getState() != 0) {
                 continue;
             }
+            if (world->humans[i]->getSin(choosensin) == 0) {
+                continue;
+            }
             insert(world->humans[i], NuevaListaOrdenada, choosensin);
         }
         
@@ -109,6 +112,9 @@ struct Inferno {
         Pecadores->assign(NuevaListaOrdenada->begin(), NuevaListaOrdenada->begin() + Sinners);
         cout << Pecadores->size() << endl;
         for (int i = 0; i < Sinners; i++) {
+            if (NuevaListaOrdenada->size() == 0) {
+                break;
+            }
             NuevaListaOrdenada->erase(NuevaListaOrdenada->begin());
         }
 
@@ -228,7 +234,8 @@ struct Inferno {
             if (Demons[i]->size() == 0) {
                 continue;
             }
-            if (getmaxsin(i) > cont) {
+
+            if (!Demons[i]->at(getmaxsinposition(i))->isEmpty() && getmaxsin(i) > cont) {
                 cont = getmaxsin(i);
                 int pos = getmaxsinposition(i);
                 res = Demons[i]->at(pos)->heap[0];
@@ -246,15 +253,22 @@ struct Inferno {
         return res / Demons[choosensin]->size();
     }
     
-    void print () {
-        for (int i = 0; i < 7; i++) {
-            cout << "Demon " << i << endl;
+    void print() {
+    for (int i = 0; i < 7; i++) {
+        cout << "Demon " << i << endl;
+        if (Demons[i] == nullptr) {
+            cout << "Demons[" << i << "] is nullptr." << endl;
+        } else {
             for (int j = 0; j < Demons[i]->size(); j++) {
                 cout << "Heap " << j << endl;
-                Demons[i]->at(j)->print();
-                
+                if (Demons[i]->at(j) == nullptr) {
+                    cout << "Demons[" << i << "]->at(" << j << ") is nullptr." << endl;
+                } else {
+                    Demons[i]->at(j)->print();
                 }
             }
         }
+    }
+}
     
 };

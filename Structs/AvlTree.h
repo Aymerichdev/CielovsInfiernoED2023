@@ -6,6 +6,14 @@ struct AVLNode {
     AVLNode* left;
     AVLNode* right;
 
+    AVLNode(){
+        human = nullptr;
+        key = 0;
+        height = 0;
+        left = nullptr;
+        right = nullptr;
+    }
+
     AVLNode(Human* human_) : human(human_) , key(human->id), height(1), left(nullptr), right(nullptr) {}
 };
 
@@ -160,16 +168,26 @@ void inOrderTraversal(AVLNode* root) {
     }
 }
 
-string stringforarchive(AVLNode* root, string res) {
-        Human* human = root->human;
-        if (root == nullptr) return res;
-        
-        stringforarchive(root->left, res);
-        res += human->name + " " + human->surname + " " + to_string(human->id) + " \n" + "Amigo de: ";
-        for (int i = 0; i < human->friends.size(); i++) {
-            res += human->friends[i]->name + " " + human->friends[i]->surname + " " + to_string(human->friends[i]->id) + "\n";
-        }
-        res += "\n";
-        stringforarchive(root->right, res);
-        return res;
+
+
+string stringforarchive(AVLNode* root) {
+    // Función para guardar en str lo que contiene el arbol
+    string res = "";
+    if (root != nullptr) {
+        res += stringforarchive(root->left);
+        res += root->human->name + " " + root->human->surname + " " + to_string(root->key)+ " " + "Amigo de: ";
+        if (root->human->friends.empty())
+            res += "Ninguno";
+        for (int i = 0; i < root->human->friends.size(); i++)
+            res += to_string(root->human->friends[i]->id) + " ";
+        res += "\n\n";
+        res += stringforarchive(root->right);
+    }
+
+    return res;
 }
+
+
+
+
+ 
