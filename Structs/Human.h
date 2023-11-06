@@ -174,13 +174,22 @@ struct Human{
         friends.push_back(friendToAdd);
     }
 
+    string getstringid(){
+        string id = "(" + to_string(this->id) + ")";
+        return id;
+    }
+
+    string getfriendsstring(){
+        string res = "Amigo de: (";
+        for (int i = 0; i < friends.size(); i++)
+            res += friends[i]->getName() + " " + friends[i]->getSurname() + " " + friends[i]->getstringid() + " "; 
+        res += ")";
+        return res;
+
+    }
     string getinfo(){
         string res = "";
-        res += name + " " + surname + " " + to_string(id) + " " + "Amigo de: ";
-        if (friends.empty())
-            res += "Ninguno";
-        for (int i = 0; i < friends.size(); i++)
-            res += to_string(friends[i]->id) + " ";
+        res += name + " " + surname + " " + getstringid() + " ";
         return res;
     }
 

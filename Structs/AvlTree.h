@@ -179,9 +179,7 @@ string stringforarchive(AVLNode* root) {
     string res = "";
     if (root != nullptr) {
         res += stringforarchive(root->left);
-        res += root->human->getinfo() + "\n";
-        for (int i = 0; i < root->human->friends.size(); i++)
-            res += to_string(root->human->friends[i]->id) + " ";
+        res += root->human->getinfo() + root->human->getfriendsstring() + "\n";
         res += "\n\n";
         res += stringforarchive(root->right);
     }

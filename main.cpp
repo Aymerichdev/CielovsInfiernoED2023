@@ -27,6 +27,8 @@ int main() {
     HeavenTree* heaven = new HeavenTree(mundo, infierno);
     winner(infierno, mundo, heaven);
     mundo->generateRandomHumans(10000);
+    mundo->humans[0]->printHuman();
+
     Familysearch("Aymerich", "Costa Rica", mundo);
     for (int i = 0; i < 300; i++) {
         mundo->humans[i]->addSin(0, 50);

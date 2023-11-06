@@ -317,7 +317,7 @@ struct Inferno {
                 }
                 str += " Heap de la familia " + (*Demons[i])[j]->surname + " " + (*Demons[i])[j]->country + "\n";
                 for (int k = 0; k < Demons[i]->at(j)->getSize(); k++) {
-                str += Demons[i]->at(j)->heap[k]->getinfo() + " condenado por " + to_string(Demons[i]->at(j)->heap[k]->sins[i]) + "\n\n";
+                str += Demons[i]->at(j)->heap[k]->getinfo() + " " + Demons[i]->at(j)->heap[k]->getfriendsstring() + "\n condenado por " + to_string(Demons[i]->at(j)->heap[k]->sins[i]) + "\n\n";
                 conthumans++;
                 }
             }

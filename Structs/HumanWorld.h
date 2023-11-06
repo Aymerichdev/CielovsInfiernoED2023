@@ -76,6 +76,7 @@ struct HumanWorld{
         }
         return NULL;
     }
+    
 
     Human* generateRandomHuman(){
         // TODO: has to be changed to generate a random human, including all attributes
@@ -142,6 +143,39 @@ struct HumanWorld{
         insertTree(humans, 0, humansCount - 1, treeSize, (int)log2(treeSize + 1));
     }
 
+        bool verifyfriendship(Human* human1, Human* human2){
+        if (human1->getCountry() == human2->getCountry()){
+            if (human1->getBelief() == human2->getBelief())
+                    return true;
+            else if (human1->getJob() == human2->getJob())
+                    return true;
+            else if (human1->getSurname() == human2->getSurname())
+                    return true;
+            }
+        return false;
+        }
+    
+
+    void givefriends(){
+        for (int i = 0; i < humansCount; i++){
+            Human* human = humans[i];
+            int friends = (rand() % 100) + 1;
+            int cont = 0;
+            for (int j = 0; j < humansCount; j++){
+                if (human->getId() == humans[j]->getId())
+                    continue;
+
+                else if (verifyfriendship(human, humans[j])){
+                human->addFriend(humans[j]);
+                cont++;
+                }
+
+                if (cont == friends)
+                    break;
+            }
+        }
+    }
+
     void generateRandomHumans(int amount){
         if (amount + humansCount > 100000){
             cout << "Not enough space for " << amount << " humans" << endl;
@@ -151,7 +185,9 @@ struct HumanWorld{
             addHuman(generateRandomHuman());
         }
         buildTree();
+        givefriends();
     }
+
 
     void printHumans(){
         for (int i = 0; i < humansCount; i++){
