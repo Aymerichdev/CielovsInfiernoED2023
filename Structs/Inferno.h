@@ -49,51 +49,80 @@ struct Inferno {
         int sin = human->getSin(choosensin);
         vector<HumanSinHeap*>* demon = Demons[choosensin];
         if (demon->size() == 0) {
-            demon->push_back(new HumanSinHeap(choosensin));
+            demon->push_back(new HumanSinHeap(choosensin, human->getCountry(), human->getSurname()));
             demon->at(0)->insert(human);
             human->heapPosition = 0;
             return;
         }
         for (int i = 0; i < demon->size(); i++) {            
-            if ((*demon)[i]->heap[0]->getSurname() == human->getSurname() && (*demon)[i]->heap[0]->getCountry() == human->getCountry()) {
+            if ((*demon)[i]->surname == human->getSurname() && (*demon)[i]->country == human->getCountry()) {
                 (*demon)[i]->insert(human);
                 human->heapPosition = i;
                 return;
             }     
         }
-        demon->push_back(new HumanSinHeap(choosensin));
+        demon->push_back(new HumanSinHeap(choosensin, human->getCountry(), human->getSurname()));
         demon->at(demon->size() - 1)->insert(human);
         human->heapPosition = demon->size() - 1;
 
     }
 
-    void condenation(int choosensin) {
-        string bitacora= "\tBitacora de condenacion\n\tDemonio: ";
+    string givedemonname(int choosensin) {
         switch (choosensin) {
             case 0:
-                bitacora += "Lucifer\tcondena a los orgullosos\n\n";
-                break;
+                return "Lucifer";
             case 1:
-                bitacora += "Belcebu\tcondena a los envidiosos\n\n";
-                break;
+                return "Belcebu";
             case 2:
-                bitacora += "Satan\tcondena a los iracundos\n\n";
-                break;
+                return "Satan";
             case 3:
-                bitacora += "Abadon\tcondena a los perezosos\n\n";
-                break;
+                return "Abadon";
             case 4:
-                bitacora += "Mammon\tcondena a los avaros\n\n";
-                break;
+                return "Mammon";
             case 5:
-                bitacora += "Beelfegor\tcondena a los glotones\n\n";
-                break;
+                return "Beelfegor";
             case 6:
-                bitacora += "Asmodeo\tcondena a los lujuriosos\n\n";
-                break;
+                return "Asmodeo";
         }
+    }
+
+    string givedemoncondenation(int choosensin) {
+        switch (choosensin) {
+            case 0:
+                return "orgullosos";
+            case 1:
+                return "envidiosos";
+            case 2:
+                return "iracundos";
+            case 3:
+                return "perezosos";
+            case 4:
+                return "avaros";
+            case 5:
+                return "glotones";
+            case 6:
+                return "lujuriosos";
+        }
+    }
+
+    int overallsins() {
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < Demons[i]->size(); j++) {
+                res += Demons[i]->at(j)->getallints();
+            }
+        }
+        return res;
+    }
+        
+
+    void condenation(int choosensin) {
+        string bitacora= "\tBitacora de condenacion\n\tDemonio: ";
         int totalhuman = world->humansCount;
         int Sinners = totalhuman * 0.05 -1; 
+        bitacora += givedemonname(choosensin) + " condena a "+ to_string(Sinners) + givedemoncondenation(choosensin) + "\n\t";
+        
+    
         //Crea una nueva lista ordenada de todos los humanos 
         vector<Human*>* NuevaListaOrdenada = new vector<Human*>;
         
@@ -109,47 +138,32 @@ struct Inferno {
         
         //Crea la lista de pecadores
         vector<Human*>* Pecadores= new vector<Human*>;
+        if (Sinners > NuevaListaOrdenada->size()) {
+            Sinners = NuevaListaOrdenada->size();
+        }
         Pecadores->assign(NuevaListaOrdenada->begin(), NuevaListaOrdenada->begin() + Sinners);
         cout << Pecadores->size() << endl;
-        for (int i = 0; i < Sinners; i++) {
+        for (int i = 0; i < NuevaListaOrdenada->size(); i++) {
             if (NuevaListaOrdenada->size() == 0) {
                 break;
             }
             NuevaListaOrdenada->erase(NuevaListaOrdenada->begin());
         }
 
+
         //Kills the humans and send them to the Inferno
         for (int i = 0; i < Pecadores->size(); i++) {
             killhuman(Pecadores->at(i), choosensin);
+            cout << i << endl;
             bitacora += "\t\t" + Pecadores->at(i)->getSurname() + " " + Pecadores->at(i)->getName() + " " + Pecadores->at(i)->getCountry() + "\n\t";
             bitacora += HoraSistema() + " condenado por " + to_string(Pecadores->at(i)->getSin(choosensin)) + " pecados\n\n";
         }
-
+        
         //Creacion del log de condenacion
         ofstream log;
-        switch (choosensin) {
-            case 0:
-                log.open("Logs/Lucifer" + to_string(archivenamecounter[0]++) + ".txt");
-                break;
-            case 1:
-                log.open("Logs/Belcebu" + to_string(archivenamecounter[1]++) + ".txt");
-                break;
-            case 2:
-                log.open("Logs/Satan" + to_string(archivenamecounter[2]++) + ".txt");
-                break;
-            case 3:
-                log.open("Logs/Abadon" + to_string(archivenamecounter[3]++) + ".txt");
-                break;
-            case 4:
-                log.open("Logs/Mammon" + to_string(archivenamecounter[4]++) + ".txt");
-                break;
-            case 5:
-                log.open("Logs/Beelfegor" + to_string(archivenamecounter[5]++) + ".txt");    
-                break;
-            case 6:
-                log.open("Logs/Asmodeo" + to_string(archivenamecounter[6]++) + ".txt");
-                break;
-        }
+        
+        log.open("Logs/" + givedemonname(choosensin) + to_string(archivenamecounter[choosensin]++) + ".txt");
+               
         log << bitacora;
         log.close();
     }
@@ -208,6 +222,16 @@ struct Inferno {
             
         }
         return res;
+    }
+    bool infernempty() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < Demons[i]->size(); j++) {
+                if (!Demons[i]->at(j)->isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     int getmaxsin(int choosensin) {
@@ -270,5 +294,46 @@ struct Inferno {
         }
     }
 }
+
+    void createlog() {
+        string str = "";
+        if (infernempty()) {
+            str += "No hay humanos en el infierno\n";
+            ofstream file;
+            file.open("Logs/InfernoLog.txt");
+            file << "\t El infierno\n";
+            file << str;
+            file.close();
+            return;
+        }
+
+        int cont = 0;
+        for(int i = 0; i < 7; i++){
+            str += "\tDemonio " + givedemonname(i) + "\n";
+            for (int j = 0; j < Demons[i]->size(); j++) {
+                if (Demons[i]->at(j)->isEmpty()) {
+                    continue;
+                }
+                str += " Heap de la familia " + (*Demons[i])[j]->surname + " " + (*Demons[i])[j]->country + "\n";
+                for (int k = 0; k < Demons[i]->at(j)->getSize(); k++) {
+                str += Demons[i]->at(j)->heap[k]->getinfo() + " condenado por " + to_string(Demons[i]->at(j)->heap[k]->sins[i]) + "\n\n";
+                cont++;
+                }
+            }
+        }
+        str += "\nTotal de pecadores: " + to_string(cont) + "\n";
+        str += "Total de pecados: " + to_string(overallsins()) + "\n";
+        str += "Promedio de pecados por pecador: " + to_string(overallsins() / cont) + "\n";
+        Human * human = getmaxsinnerofall();
+        str += "Mayor pecador: " + human->getinfo() +" con "+ to_string(human->getbiggersin()) + " pecados de "+  +"\n";
+
+
+        //crea el archivo S
+        ofstream file;
+        file.open("Logs/InfernoLog.txt");
+        file << "\t El infierno\n";
+        file << str;
+        file.close();
+    }
     
 };

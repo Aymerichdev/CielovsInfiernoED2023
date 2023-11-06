@@ -1,16 +1,21 @@
 struct HumanSinHeap {
     std::vector<Human*> heap;
     int choosenSin;
-
+    string country;
+    string surname;
     // Constructor
     HumanSinHeap() {
         heap = {};
         choosenSin = 0;
+        country = "";
+        surname = "";
     }
 
-    HumanSinHeap(int _choosenSin) {
+    HumanSinHeap(int _choosenSin, string _country, string _surname) {
         heap = {};
         choosenSin = _choosenSin;
+        country = _country;
+        surname = _surname;
     }
 
 
@@ -61,7 +66,6 @@ struct HumanSinHeap {
     
     int getMax() const {
         if (heap.empty()) {
-            cout << ("Heap is empty") << endl;
             return 0;
         }
 
@@ -126,7 +130,16 @@ struct HumanSinHeap {
         }
     }
 }
-
+    int addallints() const {
+        if (heap.empty()) {
+            return 0;
+        }
+        int res = 0;
+        for (int i = 0; i < heap.size(); i++) {
+            res += heap[i]->getSin(choosenSin);
+        }
+        return res;
+    }
 
     void print() const {
         if (heap.empty()) {

@@ -16,7 +16,11 @@ struct AVLNode {
 
     AVLNode(Human* human_) : human(human_) , key(human->id), height(1), left(nullptr), right(nullptr) {}
 };
-
+//Funcion que cuenta la cantidad de elementos en el arbol
+int sizeavl(AVLNode* root) {
+    if (root == nullptr) return 0;
+    return sizeavl(root->left) + sizeavl(root->right) + 1;
+}
 // Función para calcular la altura de un nodo
 int getHeight(AVLNode* node) {
     return (node != nullptr) ? node->height : 0;
@@ -175,9 +179,7 @@ string stringforarchive(AVLNode* root) {
     string res = "";
     if (root != nullptr) {
         res += stringforarchive(root->left);
-        res += root->human->name + " " + root->human->surname + " " + to_string(root->key)+ " " + "Amigo de: ";
-        if (root->human->friends.empty())
-            res += "Ninguno";
+        res += root->human->getinfo() + "\n";
         for (int i = 0; i < root->human->friends.size(); i++)
             res += to_string(root->human->friends[i]->id) + " ";
         res += "\n\n";

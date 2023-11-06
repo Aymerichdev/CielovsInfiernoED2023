@@ -173,4 +173,24 @@ struct Human{
     void addFriend(Human * friendToAdd){
         friends.push_back(friendToAdd);
     }
+
+    string getinfo(){
+        string res = "";
+        res += name + " " + surname + " " + to_string(id) + " " + "Amigo de: ";
+        if (friends.empty())
+            res += "Ninguno";
+        for (int i = 0; i < friends.size(); i++)
+            res += to_string(friends[i]->id) + " ";
+        return res;
+    }
+
+    int getbiggersin(){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            if (sins[i] > res) {
+                res = sins[i];
+            }
+        }
+        return res;
+    }
 };

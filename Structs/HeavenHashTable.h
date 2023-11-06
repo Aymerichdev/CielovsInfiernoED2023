@@ -16,8 +16,9 @@ struct HeavenHashTable {
     void insert(Human* human) {
         int index = hash(human->id);
         table[index] = insert(table[index], human);
+        int ahpapi = table[index]->key;
+        if (ahpapi == 0)
         deleteNode(table[index], 0);
-        inOrderTraversal(table[index]);
     }
 
     int search(int id) {
@@ -34,7 +35,11 @@ struct HeavenHashTable {
         }
     }
 
-
+    // Funcion que da la cantidad de elementos en el arbol
+    int size(AVLNode* root) {
+        if (root == nullptr) return 0;
+        return size(root->left) + size(root->right) + 1;
+    }
 
     AVLNode* insert(AVLNode* root, Human* human) {
         if (root == nullptr) return new AVLNode(human);

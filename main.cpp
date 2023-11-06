@@ -6,14 +6,6 @@ int main() {
     // Test for TreeOfLife Struct
     cout << "TreeOfLife" << endl;
     TreeOfLife* tree = new TreeOfLife();
-    tree->insert(new Human(1));
-    tree->insert(new Human(4));
-    tree->insert(new Human(6));
-    tree->insert(new Human(2));
-    tree->inOrder();
-    cout << endl;
-    tree->preOrder();
-    cout << endl;
     tree->emptyTree();
     tree->inOrder();
     cout << endl << endl;
@@ -32,28 +24,36 @@ int main() {
     TreeOfLife* tree2 = new TreeOfLife();
     HumanWorld* mundo = new HumanWorld(tree2);
     Inferno* infierno = new Inferno(mundo);
-    mundo->generateRandomHumans(100);
-    for (int i = 0; i < 30; i++) {
+    mundo->generateRandomHumans(10000);
+    for (int i = 0; i < 300; i++) {
         mundo->humans[i]->addSin(0, 50);
+    }
+    for (int i = 100; i < 200; i++) {
+        mundo->humans[i]->addSin(0, 100);
     }
 
     mundo->humans[15]->sins[0] = 80;
     infierno->condenation(0);
     infierno->condenation(0);
+    infierno->condenation(0);
+    infierno->condenation(0);
     cout << infierno->getmaxsin(0) << endl;
-    cout << infierno->getmaxsin(5) << endl;
+    
 
     cout << infierno->getmaxsinnerofall() << endl;
     cout << infierno->getaverage(0) << endl;
-    infierno->print();
-   
+    
+    infierno->createlog();
     HeavenTree* heaven = new HeavenTree(mundo, infierno);
     heaven->start();
     heaven->salvacion();
     heaven->salvacion();
-    
-    cout << endl << endl;
     heaven->hashTable->print();
+
+    cout << endl << endl;
+    cout << infierno->infernempty() << endl;
+    infierno->createlog();
+    cout << endl << endl;
     
     heaven->createlog();
     cout << endl << endl;
