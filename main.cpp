@@ -28,6 +28,7 @@ int main() {
     winner(infierno, mundo, heaven);
     mundo->generateRandomHumans(10000);
     mundo->humans[0]->printHuman();
+    mundo->humans[0]->publication(0);
 
     Familysearch("Aymerich", "Costa Rica", mundo);
     for (int i = 0; i < 300; i++) {
