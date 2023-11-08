@@ -47,6 +47,7 @@ struct Inferno {
     void killhuman(Human* human, int choosensin) {
         //Kill a human and send him to the Inferno
         human->setState(1);
+        human->sinininferno = choosensin;
         int sin = human->getSin(choosensin);
         vector<HumanSinHeap*>* demon = Demons[choosensin];
         if (demon->size() == 0) {
@@ -143,7 +144,6 @@ struct Inferno {
             Sinners = NuevaListaOrdenada->size();
         }
         Pecadores->assign(NuevaListaOrdenada->begin(), NuevaListaOrdenada->begin() + Sinners+1);
-        cout << Pecadores->size() << endl;
         for (int i = 0; i <= NuevaListaOrdenada->size(); i++) {
             if (NuevaListaOrdenada->size() == 0) {
                 break;
@@ -325,7 +325,7 @@ struct Inferno {
         str += "Total de pecados: " + to_string(overallsins()) + "\n";
         str += "Promedio de pecados por pecador: " + to_string(overallsins() / conthumans) + "\n";
         Human * human = getmaxsinnerofall();
-        str += "Mayor pecador: " + human->getinfo() +" con "+ to_string(human->getbiggersin()) + " pecados de "+  +"\n";
+        str += "Mayor pecador: " + human->getinfo() +" con "+ to_string(human->sins[human->sinininferno]) + " pecados de "+ givedemonname(human->sinininferno) +"\n";
 
 
         //crea el archivo S

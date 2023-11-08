@@ -82,8 +82,8 @@ struct HeavenTree{
             break;
         }
 
-        int sin = human->getbiggersinposition();
-
+        int sin = human->sinininferno;
+        
         vector<HumanSinHeap*> humansheap = (*inferno->Demons[sin]);
         if (humansheap.size() == 0){
         cout << "No hay humanos en el infierno, dio 0 el size" << endl;
@@ -104,7 +104,6 @@ struct HeavenTree{
         angel->saveHuman(human);
         hashTable->insert(human);
         str += HoraSistema() + " " + angel->name +" generacion "+ to_string(size) + " salvo a " + human->getinfo() +  " por " + to_string(human->getbiggersin()) +" pecados" +  "\n";
-        cout << "insertado " << i << endl;
         }
         //crea el archivo S
         ofstream file;

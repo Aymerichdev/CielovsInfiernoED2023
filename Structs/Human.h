@@ -8,7 +8,7 @@ struct Human{
     int socialNetworkslike[7]; // 0 pride 1 envy 2 wrath 3 sloth 4 greed 5 gluttony 6 lust
     Angel* angel;
     int heapPosition= -1;
-
+    int sinininferno= -1;
     // Constructors
     Human(){
         id = 0;
@@ -143,7 +143,7 @@ struct Human{
     int getbiggersinposition (){
         int res = 0;
         for (int i = 0; i < 7; i++) {
-            if (sins[i] > res) {
+            if (sins[i] > sins[res]) {
                 res = i;
             }
         }

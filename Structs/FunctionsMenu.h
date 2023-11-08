@@ -159,6 +159,7 @@ string givebelief(int belief){
 }
 
 void publicationreligion(HumanWorld* world){
+    int cont = 0;
     cout << "Publicacion por religion" << endl;
     cout << "Esta publica en la red social favorita de todos los creyentes de una religion" << endl;
     cout << "Escoja la religion" << endl;
@@ -186,12 +187,14 @@ void publicationreligion(HumanWorld* world){
     for (int i = 0; i < world->humansCount; i++){
         if (world->humans[i]->getBelief() == religion){
             world->humans[i]->publication(world->humans[i]->getfavoritesocialnetwork());
+            cont++;
         }
     }
-    cout << "Se ha publicado" << endl;
+    cout << "Se han hecho " << cont << " publicaciones" <<endl;
 }
 
 void publicationfamily(HumanWorld* world){
+    int cont = 0;
     cout << "Publicacion por familia" << endl;
     cout << "Esta publica en la red social favorita de todos los miembros de una familia" << endl;
     cout << "Se le recomienda que confirme la existencia de la familia con el metodo de buscar familia" << endl;
@@ -226,14 +229,17 @@ void publicationfamily(HumanWorld* world){
             int max = family[i]->getfavoritesocialnetwork();
             family[i]->publication(max);
             family[i]->socialNetworkslike[max] = 0;
+            cont++;
         }
         for (int j = 0; j < 7; j++){
             family[i]->socialNetworkslike[j] = temporalarray[j];
         }
     }
+    cout << "Se han hecho " << cont << " publicaciones" <<endl;
 }
 
 void publicationjob(HumanWorld* world){
+    int cont = 0;
     cout << "Publicacion por trabajo" << endl;
     cout << "Esta publica en la red social favorita de todos los humanos de un trabajo" << endl;
     cout << "Debe escojer un N el cual es la cantidad de redes sociales en las que publicaran basado en su favoritismo" << endl;
@@ -266,11 +272,13 @@ void publicationjob(HumanWorld* world){
             int max = workers[i]->getfavoritesocialnetwork();
             workers[i]->publication(max);
             workers[i]->socialNetworkslike[max] = 0;
+            cont++;
         }
         for (int j = 0; j < 7; j++){
             workers[i]->socialNetworkslike[j] = temporalarray[j];
         }
     }
+    cout << "Se han hecho " << cont << " publicaciones" <<endl;
 }
 
 void publication(HumanWorld* world){
@@ -306,6 +314,7 @@ void publication(HumanWorld* world){
 
             default:
             cout << "Opcion invalida" << endl;
+            publication(world);
             break;
         }
 }

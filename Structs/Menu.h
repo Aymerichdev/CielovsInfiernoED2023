@@ -66,7 +66,6 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
         case 9:
         hell->createlog();
         heaven->createlog();
-        heaven->hashTable->print();
         winner(hell, world, heaven);
         cout << "Se ha creado el archivo con toda la informacion de la batalla" << endl;
         break;
