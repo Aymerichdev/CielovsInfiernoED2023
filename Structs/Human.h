@@ -204,6 +204,16 @@ struct Human{
         return res;
     }
 
+    int getfavoritesocialnetwork(){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            if (socialNetworkslike[i] > socialNetworkslike[res]) {
+                res = i;
+            }
+        }
+        return res;
+    }
+
     int getfavoritism(int socialnetwork){
         socialnetwork = socialNetworkslike[socialnetwork];
         int res = 0;
@@ -221,9 +231,7 @@ struct Human{
 
     void publication(int socialnetwork){
         for (int i =0; i < friends.size(); i++){
-            friends[i]->printHuman();
-            friends[i]->addSin(socialnetwork, friends[i]->getfavoritism(socialnetwork)+1);
-            friends[i]->printHuman();
+            friends[i]->addSin(socialnetwork, friends[i]->getfavoritism(socialnetwork)+1);            
         }
     }
 };

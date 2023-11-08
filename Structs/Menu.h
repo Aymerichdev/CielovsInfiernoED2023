@@ -33,8 +33,7 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
         break;
 
         case 2:
-        cout << "Publicaciones" << endl;
-        //Publicaciones TODO
+        publication(world);
         break;
 
         case 3:
@@ -65,6 +64,9 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
         break;
 
         case 9:
+        hell->createlog();
+        heaven->createlog();
+        heaven->hashTable->print();
         winner(hell, world, heaven);
         cout << "Se ha creado el archivo con toda la informacion de la batalla" << endl;
         break;

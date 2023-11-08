@@ -33,6 +33,7 @@ string HoraSistema();
 void Familysearch(string, string, HumanWorld*);
 int NumberCoversion(string number);
 void winner(Inferno* infern, HumanWorld* world, HeavenTree* Heaven);
+string Uppercase(string str);
 // Structs
 #include "Human.h"
 

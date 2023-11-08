@@ -121,7 +121,7 @@ struct Inferno {
         string bitacora= "\tBitacora de condenacion\n\tDemonio: ";
         int totalhuman = world->humansCount;
         int Sinners = totalhuman * 0.05 -1; 
-        bitacora += givedemonname(choosensin) + " condena a "+ to_string(Sinners) + givedemoncondenation(choosensin) + "\n\t";
+        bitacora += givedemonname(choosensin) + " condena a "+ to_string(Sinners+1) + " " + givedemoncondenation(choosensin) + "\n\t";
         
     
         //Crea una nueva lista ordenada de todos los humanos 
@@ -142,20 +142,19 @@ struct Inferno {
         if (Sinners > NuevaListaOrdenada->size()) {
             Sinners = NuevaListaOrdenada->size();
         }
-        Pecadores->assign(NuevaListaOrdenada->begin(), NuevaListaOrdenada->begin() + Sinners);
+        Pecadores->assign(NuevaListaOrdenada->begin(), NuevaListaOrdenada->begin() + Sinners+1);
         cout << Pecadores->size() << endl;
-        for (int i = 0; i < NuevaListaOrdenada->size(); i++) {
+        for (int i = 0; i <= NuevaListaOrdenada->size(); i++) {
             if (NuevaListaOrdenada->size() == 0) {
                 break;
             }
             NuevaListaOrdenada->erase(NuevaListaOrdenada->begin());
         }
 
-
+        bitacora+= "\tFue posible condenar a " + to_string(Pecadores->size()) + "\n" ;
         //Kills the humans and send them to the Inferno
         for (int i = 0; i < Pecadores->size(); i++) {
             killhuman(Pecadores->at(i), choosensin);
-            cout << i << endl;
             bitacora += "\t\t" + Pecadores->at(i)->getSurname() + " " + Pecadores->at(i)->getName() + " " + Pecadores->at(i)->getCountry() + "\n\t";
             bitacora += HoraSistema() + " condenado por " + to_string(Pecadores->at(i)->getSin(choosensin)) + " pecados\n\n";
         }

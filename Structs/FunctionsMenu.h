@@ -44,11 +44,12 @@ void condenation(Inferno* hell){
             return;
         }
         hell->condenation(opcion-1);
+        cout << "Se condenaron a los pecadores y se mando al correo" << endl; 
 }
 
 void salvation(HeavenTree* heaven){
     cout << "Salvacion" << endl;
-    cout << "Han habido " << heaven->size - 2 << " salvaciones" << endl;
+    cout << "Han habido " + to_string(heaven->size-1) + " salvaciones" << endl;
     cout << "Seguro que desea salvar a los humanos? (y/n)" << endl;
     string res;
     getline(cin, res);
@@ -56,9 +57,9 @@ void salvation(HeavenTree* heaven){
     if (minires == 'Y'){
         heaven->salvacion();
         cout << "Se han salvado los humanos" << endl;
-        cout << "Han habido " << heaven->size - 2 << " salvaciones" << endl;
+        cout << "Han habido " + to_string(heaven->size-1) + " salvaciones" << endl;
     }
-    else if (res == "n"){
+    else if (minires == 'N'){
         cout << "No se han salvado los humanos" << endl;
         return;
     }
@@ -67,4 +68,244 @@ void salvation(HeavenTree* heaven){
         salvation(heaven);
     }
 
+}
+
+void individualpublication(HumanWorld* world){
+    cout << "Publicacion indivual" << endl;
+    cout << "Escoja la red social en la que se va a publicar" << endl;
+    cout << "1. Instagram de orgullosos" << endl;
+    cout << "2. Facebook de envidiosos" << endl;
+    cout << "3. Twitter de enojados" << endl;
+    cout << "4. Netflix de perezosos" << endl;
+    cout << "5. Linkedln de avaros" << endl;
+    cout << "6. Pedidos ya de glotones" << endl;
+    cout << "7. Por... Tinder de lujoriosos" << endl;  
+    string preopcion;
+    getline(cin, preopcion);
+    int opcion = NumberCoversion(preopcion);
+    if (opcion == -1){
+        individualpublication(world);
+        return;
+    }
+
+
+    cout << "Red social escogida" << endl;      
+    cout << "Ingrese el id del humano que va a hacer la publicacion" << endl;
+    cout << world->humans[0]->getId() << endl;
+    string preid;
+    getline(cin, preid);
+    int id = NumberCoversion(preid);
+    if (id == -1){
+        individualpublication(world);
+        return;
+    }
+
+    for (int i = 0; i < world->humansCount; i++){
+        if (world->humans[i]->getId() == id){
+        world->humans[i]->publication(opcion-1);
+        cout << "Se ha publicado" << endl;
+        return;
+            
+        }
+    }
+}
+string givebelief(int belief){
+    switch(belief){
+        case 1:
+        return "Cristianismo";
+        break;
+
+        case 2:
+        return "Judaismo";
+        break;
+
+        case 3:
+        return "Testigo de Jehova";
+        break;
+
+        case 4:
+        return "Evangelismo";
+        break;
+
+        case 5:
+        return "Budismo";
+        break;
+
+        case 6:
+        return "Ateismo";
+        break;
+
+        case 7:
+        return "Agnostico";
+        break;
+
+        case 8:
+        return "Panteismo";
+        break;
+
+        case 9:
+        return "Hinduismo";
+        break;
+
+        case 10:
+        return "Islam";
+        break;
+
+        default:
+        return "No tiene religion";
+        break;
+    
+    }
+}
+
+void publicationreligion(HumanWorld* world){
+    cout << "Publicacion por religion" << endl;
+    cout << "Esta publica en la red social favorita de todos los creyentes de una religion" << endl;
+    cout << "Escoja la religion" << endl;
+    cout << "1. Cristianismo" << endl;
+    cout << "2. Judaismo" << endl;
+    cout << "3. Testigo de Jehova" << endl;
+    cout << "4. Evangelismo" << endl;
+    cout << "5. Budismo" << endl;
+    cout << "6. Ateismo" << endl;
+    cout << "7. Agnostico" << endl;
+    cout << "8. Panteismo" << endl;
+    cout << "9. Hinduismo" << endl;
+    cout << "10. Islam" << endl;
+    string preopcion;
+    getline(cin, preopcion);
+    int opcion = NumberCoversion(preopcion);
+    if (opcion == -1){
+        publicationreligion(world);
+        return;
+    }
+    string religion = givebelief(opcion);
+
+    cout << "Religion escogida" << endl;
+
+    for (int i = 0; i < world->humansCount; i++){
+        if (world->humans[i]->getBelief() == religion){
+            world->humans[i]->publication(world->humans[i]->getfavoritesocialnetwork());
+        }
+    }
+    cout << "Se ha publicado" << endl;
+}
+
+void publicationfamily(HumanWorld* world){
+    cout << "Publicacion por familia" << endl;
+    cout << "Esta publica en la red social favorita de todos los miembros de una familia" << endl;
+    cout << "Se le recomienda que confirme la existencia de la familia con el metodo de buscar familia" << endl;
+    cout << "Debe escojer un N el cual es la cantidad de redes sociales en las que publicaran basado en su favoritismo" << endl;
+    cout << "Debe ser un N entre 1 y 7" << endl;
+    string preopcion;
+    getline(cin, preopcion);
+    int opcion = NumberCoversion(preopcion);
+    if (opcion == -1)
+        publicationfamily(world);
+    if (opcion > 7){
+        cout << "Debe ser un N entre 1 y 7" << endl;
+        publicationfamily(world);
+    }
+    cout << "N escogido" << endl;
+    cout << "Ingrese el apellido de la familia" << endl;
+    string apellido;
+    getline(cin, apellido);
+    cout << "Ingrese el pais de la familia" << endl;
+    string pais;
+    getline(cin, pais);
+    cout << "Familia escogida" << endl;
+    vector <Human*> family;
+    for (int i = 0; i < world->humansCount; i++){
+        if ( Uppercase(world->humans[i]->getSurname()) == Uppercase(apellido) && Uppercase(world->humans[i]->getCountry()) == Uppercase(pais)){
+            family.push_back(world->humans[i]);
+        }
+    }
+    for (int i = 0; i < family.size(); i++){
+        int temporalarray[7] = {family[i]->socialNetworkslike[0], family[i]->socialNetworkslike[1], family[i]->socialNetworkslike[2], family[i]->socialNetworkslike[3], family[i]->socialNetworkslike[4], family[i]->socialNetworkslike[5], family[i]->socialNetworkslike[6]};
+        for (int j = 0; j < opcion; j++){
+            int max = family[i]->getfavoritesocialnetwork();
+            family[i]->publication(max);
+            family[i]->socialNetworkslike[max] = 0;
+        }
+        for (int j = 0; j < 7; j++){
+            family[i]->socialNetworkslike[j] = temporalarray[j];
+        }
+    }
+}
+
+void publicationjob(HumanWorld* world){
+    cout << "Publicacion por trabajo" << endl;
+    cout << "Esta publica en la red social favorita de todos los humanos de un trabajo" << endl;
+    cout << "Debe escojer un N el cual es la cantidad de redes sociales en las que publicaran basado en su favoritismo" << endl;
+    cout << "Debe ser un N entre 1 y 7" << endl;
+    string preopcion;
+    getline(cin, preopcion);
+    int opcion = NumberCoversion(preopcion);
+    if (opcion == -1)
+        publicationfamily(world);
+    if (opcion > 7){
+        cout << "Debe ser un N entre 1 y 7" << endl;
+        publicationfamily(world);
+    }
+    cout << "N escogido" << endl;
+    cout << "Ingrese el trabajo" << endl;
+    cout << "Se le recomienda ver el archivo de trabajos para ver los trabajos disponibles" << endl;
+    string trabajo;
+    getline(cin, trabajo);
+    cout << "Trabajo escogido" << endl;
+
+    vector <Human*> workers;
+    for (int i = 0; i < world->humansCount; i++){
+        if (Uppercase(world->humans[i]->getJob()) == Uppercase(trabajo))
+            workers.push_back(world->humans[i]);
+        
+    }
+    for (int i = 0; i < workers.size(); i++){
+        int temporalarray[7] =  {workers[i]->socialNetworkslike[0], workers[i]->socialNetworkslike[1], workers[i]->socialNetworkslike[2], workers[i]->socialNetworkslike[3], workers[i]->socialNetworkslike[4], workers[i]->socialNetworkslike[5], workers[i]->socialNetworkslike[6]};
+        for (int j = 0; j < opcion; j++){
+            int max = workers[i]->getfavoritesocialnetwork();
+            workers[i]->publication(max);
+            workers[i]->socialNetworkslike[max] = 0;
+        }
+        for (int j = 0; j < 7; j++){
+            workers[i]->socialNetworkslike[j] = temporalarray[j];
+        }
+    }
+}
+
+void publication(HumanWorld* world){
+    if (world->humansCount == 0){
+        cout << "No hay humanos" << endl;
+        return;
+    }
+    cout << "Publicaciones" << endl;
+    cout << "Escoja una opcion" << endl;
+    cout << "1.Publicacion indivual" << endl;
+    cout << "2.Publicacion por religion" << endl;
+    cout << "3.Por profesion" << endl;
+    cout << "4.Por familia" << endl;
+    string preopcion;
+    getline(cin, preopcion);
+    int opcion = NumberCoversion(preopcion);
+    switch (opcion){
+            case 1:
+            individualpublication(world);
+            break;
+
+            case 2:
+            publicationreligion(world);
+            break;
+
+            case 3:
+            publicationjob(world);
+            break;
+
+            case 4:
+            publicationfamily(world);
+            break;
+
+            default:
+            cout << "Opcion invalida" << endl;
+            break;
+        }
 }
