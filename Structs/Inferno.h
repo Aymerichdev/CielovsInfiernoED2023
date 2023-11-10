@@ -119,6 +119,10 @@ struct Inferno {
         
 
     void condenation(int choosensin) {
+        if (world->humansCount == 0) {
+            cout << "No hay humanos en el mundo" << endl;
+            return;
+        }
         string bitacora= "\tBitacora de condenacion\n\tDemonio: ";
         int totalhuman = world->humansCount;
         int Sinners = totalhuman * 0.05 -1; 
@@ -142,12 +146,14 @@ struct Inferno {
         vector<Human*>* Pecadores= new vector<Human*>;
         if (Sinners > NuevaListaOrdenada->size()) {
             Sinners = NuevaListaOrdenada->size();
+
         }
         Pecadores->assign(NuevaListaOrdenada->begin(), NuevaListaOrdenada->begin() + Sinners+1);
-        for (int i = 0; i <= NuevaListaOrdenada->size(); i++) {
+        for (int i = 0; i < Pecadores->size(); i++) {
             if (NuevaListaOrdenada->size() == 0) {
                 break;
             }
+            cout << NuevaListaOrdenada->size() << endl;
             NuevaListaOrdenada->erase(NuevaListaOrdenada->begin());
         }
 

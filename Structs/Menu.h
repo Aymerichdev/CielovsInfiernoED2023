@@ -5,7 +5,7 @@ HeavenTree* heaven = new HeavenTree(world, hell);
 
 void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
     bool IsRunning = 1;
-
+    heaven->start();
     while (IsRunning){
     cout << "\nBienvenido a la batalla entre el infierno y el cielo" << endl;
     cout << "Escoja una opcion" << endl;
