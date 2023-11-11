@@ -26,6 +26,25 @@ void SearchFamily(HumanWorld* world){
     cout << "Se creo el archivo de la familia" + apellido + " " + pais << endl;
 }
 
+void searchHuman(HumanWorld* world){
+    cout << "Busqueda de humano" << endl;
+    cout << "Ingrese el id del humano que desea buscar" << endl;
+    string preid;
+    getline(cin, preid);
+    int id = NumberCoversion(preid);
+    if (id == -1){
+        searchHuman(world);
+        return;
+    }
+    Human* human = world->getHuman(id);
+    if (human == NULL){
+        cout << "No se encontro el humano" << endl;
+        return;
+    }
+    cout << endl;
+    human->printHuman();
+}
+
 void condenation(Inferno* hell){
     cout << "Condenacion" << endl;
         cout << "Escoja el demonio que condenara" << endl;

@@ -68,13 +68,38 @@ struct HumanWorld{
         humans[humansCount++] = humanToAdd;
     }
 
-    Human* getHuman(int id){
-        for (int i = 0; i < humansCount; i++){
-            if (humans[i]->getId() == id){
-                return humans[i];
-            }
+    Human* getHumanNonRecursive(int id, int arrayPos){
+        if (humans[arrayPos]->getId() == id){
+            return humans[arrayPos];
+        }else if(humans[arrayPos]->getId() < id){
+            for (int i = arrayPos; i < humansCount; i++)
+                if (humans[i]->getId() == id)
+                    return humans[i];
+        }else if(humans[arrayPos]->getId() > id){
+            for (int i = arrayPos; i >= 0; i--)
+                if (humans[i]->getId() == id)
+                    return humans[i];
+        }else{
+            return NULL;
         }
-        return NULL;
+    }
+
+    Human* getHumanRecursive(int id, HumanNode* node){
+        if (node->getId() == id){
+            return node->getHuman();
+        }else if (node->isLeaf()){
+            return getHumanNonRecursive(id, node->getHuman()->getArrayPosition());
+        }else if (node->getId() < id){
+            return getHumanRecursive(id, node->getRight());
+        }else if (node->getId() > id){
+            return getHumanRecursive(id, node->getLeft());
+        }else{
+            return NULL;
+        }
+    }
+
+    Human* getHuman(int id){
+        return getHumanRecursive(id, treeOfLife->getRoot());
     }
     
 

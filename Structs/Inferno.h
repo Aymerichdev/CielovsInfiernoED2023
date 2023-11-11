@@ -86,6 +86,7 @@ struct Inferno {
             case 6:
                 return "Asmodeo";
         }
+        return "";
     }
 
     string givedemoncondenation(int choosensin) {
@@ -105,6 +106,7 @@ struct Inferno {
             case 6:
                 return "lujuriosos";
         }
+        return "";
     }
 
     int overallsins() {

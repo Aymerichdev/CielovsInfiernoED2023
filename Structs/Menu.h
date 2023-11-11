@@ -4,6 +4,7 @@ Inferno* hell = new Inferno(world);
 HeavenTree* heaven = new HeavenTree(world, hell);
 
 void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
+    heaven->start();
     bool IsRunning = 1;
     heaven->start();
     while (IsRunning){
@@ -25,8 +26,6 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
     int opcion = NumberCoversion(preopcion);
     if (opcion == -1)
         Menu(world, heaven, hell);
-         
-
     switch (opcion){
         case 1:
         Addhumans(world);
@@ -37,8 +36,7 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
         break;
 
         case 3:
-        cout << "Buscar humano por id" << endl;
-        //Tony labure
+        searchHuman(world);
         break;
 
         case 4:
