@@ -67,7 +67,9 @@ void condenation(Inferno* hell){
             return;
         }
         hell->condenation(opcion-1);
-        cout << "Se condenaron a los pecadores y se mando al correo" << endl; 
+        string mail = "vaymerich@estudiantec.cr";
+        string path = "Logs/" + hell->givedemonname(opcion-1) + to_string(hell->archivenamecounter[opcion-1]++) + ".txt";
+        sendmail(path, mail);
 }
 
 void salvation(HeavenTree* heaven){
@@ -90,6 +92,9 @@ void salvation(HeavenTree* heaven){
         cout << "No se ha entendido la respuesta" << endl;
         salvation(heaven);
     }
+    string mail = "vaymerich@estudiantec.cr";
+    string path = "Logs/Salvacion" + to_string(heaven->contdelogs) + ".txt";
+    sendmail(path, mail);
 
 }
 

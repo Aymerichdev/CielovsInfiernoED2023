@@ -107,7 +107,7 @@ struct HeavenTree{
         }
         //crea el archivo S
         ofstream file;
-        file.open("Logs/Salvacion"+ to_string(contdelogs++) +".txt");
+        file.open("Logs/Salvacion"+ to_string(contdelogs) +".txt");
         file << str;
         file.close();
     }

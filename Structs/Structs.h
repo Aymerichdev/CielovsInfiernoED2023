@@ -34,6 +34,7 @@ void Familysearch(string, string, HumanWorld*);
 int NumberCoversion(string number);
 void winner(Inferno* infern, HumanWorld* world, HeavenTree* Heaven);
 string Uppercase(string str);
+int sendmail(string path, string mail);
 // Structs
 #include "Human.h"
 
@@ -188,4 +189,24 @@ string Uppercase(string str){
         res += toupper(str[i]);
     }
     return res;
+}
+
+int sendmail(string path, string mail) {
+    // Replace with the correct path to your Python interpreter and script
+    const char* pythonCommand = "python3";
+    const char* scriptPath = "Logs/Mail.py";  // Replace with the path to your Python script
+
+    // Construct the command string
+    string command = string(pythonCommand) + " " + scriptPath + " " + path + " " + mail;
+
+    // Execute the command
+    int result = std::system(command.c_str());
+
+    if (result == 0) {
+        std::cout << "Python script executed successfully from C++." << std::endl;
+    } else {
+        std::cerr << "Error executing the Python script from C++." << std::endl;
+    }
+    
+    return result;
 }

@@ -169,7 +169,7 @@ struct Inferno {
         //Creacion del log de condenacion
         ofstream log;
         
-        log.open("Logs/" + givedemonname(choosensin) + to_string(archivenamecounter[choosensin]++) + ".txt");
+        log.open("Logs/" + givedemonname(choosensin) + to_string(archivenamecounter[choosensin]) + ".txt");
                
         log << bitacora;
         log.close();
