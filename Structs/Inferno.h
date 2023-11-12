@@ -155,7 +155,6 @@ struct Inferno {
             if (NuevaListaOrdenada->size() == 0) {
                 break;
             }
-            cout << NuevaListaOrdenada->size() << endl;
             NuevaListaOrdenada->erase(NuevaListaOrdenada->begin());
         }
 

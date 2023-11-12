@@ -36,11 +36,11 @@ struct HumanWorld{
     }
 
     void loadHumanData(){
-        names = readFileIntoArray("Data/names.txt", 30);
-        surnames = readFileIntoArray("Data/surnames.txt", 5);
-        countries = readFileIntoArray("Data/countries.txt", 5);
+        names = readFileIntoArray("Data/names.txt", 1000);
+        surnames = readFileIntoArray("Data/surnames.txt", 30);
+        countries = readFileIntoArray("Data/countries.txt", 20);
         beliefs = readFileIntoArray("Data/beliefs.txt", 10);
-        jobs = readFileIntoArray("Data/jobs.txt", 10);
+        jobs = readFileIntoArray("Data/jobs.txt", 20);
     }
 
     void addHuman(Human* humanToAdd){
@@ -82,6 +82,7 @@ struct HumanWorld{
         }else{
             return NULL;
         }
+        return NULL;   
     }
 
     Human* getHumanRecursive(int id, HumanNode* node){

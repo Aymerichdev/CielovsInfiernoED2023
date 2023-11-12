@@ -9,6 +9,7 @@ struct Human{
     Angel* angel;
     int heapPosition= -1;
     int sinininferno= -1;
+    string gmail = "";
     // Constructors
     Human(){
         id = 0;
@@ -25,6 +26,7 @@ struct Human{
             socialNetworkslike[i] = (rand() % 100) + 1 ;
         }
         angel = NULL;  
+        birthdate = HoraSistema();
     }
 
     // For testing purposes
@@ -43,6 +45,7 @@ struct Human{
             socialNetworkslike[i] = (rand() % 100) + 1 ;
         }
         angel = NULL;
+        birthdate = HoraSistema();
     }
 
     Human(int _id, string _name, string _surname, string _country, string _belief, string _job, string _birthdate){
@@ -60,6 +63,9 @@ struct Human{
             sins[i] = 0;
             socialNetworkslike[i] = (rand() % 100) + 1;
         }
+        angel = NULL;
+        birthdate = HoraSistema();
+        gmail = name + surname + "@gmail.com";
     }
 
     void printHuman(){
@@ -83,6 +89,7 @@ struct Human{
         cout << "Belief: " << belief << endl;
         cout << "Job: " << job << endl;
         cout << "Birthdate: " << birthdate << endl;
+        cout << "Mail: " << gmail << endl;
         cout << "Sins: ";
         for (int i = 0; i < 7; i++)
             cout << sins[i] << " ";

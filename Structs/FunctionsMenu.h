@@ -27,6 +27,10 @@ void SearchFamily(HumanWorld* world){
 }
 
 void searchHuman(HumanWorld* world){
+    if (world->humansCount == 0){
+        cout << "No hay humanos" << endl;
+        return;
+    }
     cout << "Busqueda de humano" << endl;
     cout << "Ingrese el id del humano que desea buscar" << endl;
     string preid;
@@ -110,7 +114,7 @@ void individualpublication(HumanWorld* world){
 
     cout << "Red social escogida" << endl;      
     cout << "Ingrese el id del humano que va a hacer la publicacion" << endl;
-    cout << world->humans[0]->getId() << endl;
+    
     string preid;
     getline(cin, preid);
     int id = NumberCoversion(preid);
@@ -121,6 +125,11 @@ void individualpublication(HumanWorld* world){
 
     for (int i = 0; i < world->humansCount; i++){
         if (world->humans[i]->getId() == id){
+            if (world->humans[i]->state != 0){
+                cout << "El humano esta muerto" << endl;
+                individualpublication(world);
+                return;
+            }
         world->humans[i]->publication(opcion-1);
         cout << "Se ha publicado" << endl;
         return;
@@ -205,6 +214,8 @@ void publicationreligion(HumanWorld* world){
 
     for (int i = 0; i < world->humansCount; i++){
         if (world->humans[i]->getBelief() == religion){
+            if (world->humans[i]->state != 0)
+                continue;
             world->humans[i]->publication(world->humans[i]->getfavoritesocialnetwork());
             cont++;
         }
@@ -245,6 +256,8 @@ void publicationfamily(HumanWorld* world){
     for (int i = 0; i < family.size(); i++){
         int temporalarray[7] = {family[i]->socialNetworkslike[0], family[i]->socialNetworkslike[1], family[i]->socialNetworkslike[2], family[i]->socialNetworkslike[3], family[i]->socialNetworkslike[4], family[i]->socialNetworkslike[5], family[i]->socialNetworkslike[6]};
         for (int j = 0; j < opcion; j++){
+            if (family[i]->state != 0)
+                break;
             int max = family[i]->getfavoritesocialnetwork();
             family[i]->publication(max);
             family[i]->socialNetworkslike[max] = 0;
@@ -288,6 +301,8 @@ void publicationjob(HumanWorld* world){
     for (int i = 0; i < workers.size(); i++){
         int temporalarray[7] =  {workers[i]->socialNetworkslike[0], workers[i]->socialNetworkslike[1], workers[i]->socialNetworkslike[2], workers[i]->socialNetworkslike[3], workers[i]->socialNetworkslike[4], workers[i]->socialNetworkslike[5], workers[i]->socialNetworkslike[6]};
         for (int j = 0; j < opcion; j++){
+            if (workers[i]->state != 0)
+                break;
             int max = workers[i]->getfavoritesocialnetwork();
             workers[i]->publication(max);
             workers[i]->socialNetworkslike[max] = 0;

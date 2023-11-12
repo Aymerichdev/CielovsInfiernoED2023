@@ -8,3 +8,13 @@ Cajero
 Banquero
 Sacerdote
 Conserje
+Piloto
+Ingeniero Civil
+Diseñador Gráfico
+Jugador de LOL
+Periodista
+Psicólogo
+Arquitecto
+Investigador Científico
+Astronauta
+Diseñador de Moda
