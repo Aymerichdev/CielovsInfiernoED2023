@@ -68,7 +68,7 @@ void condenation(Inferno* hell){
         }
         hell->condenation(opcion-1);
         string mail = "vaymerich@estudiantec.cr";
-        string path = "Logs/" + hell->givedemonname(opcion-1) + to_string(hell->archivenamecounter[opcion-1]++) + ".txt";
+        string path = "Logs/" + hell->givedemonname(opcion-1) + to_string(hell->archivenamecounter[opcion-1]-1) + ".txt";
         sendmail(path, mail);
 }
 
@@ -93,7 +93,7 @@ void salvation(HeavenTree* heaven){
         salvation(heaven);
     }
     string mail = "vaymerich@estudiantec.cr";
-    string path = "Logs/Salvacion" + to_string(heaven->contdelogs) + ".txt";
+    string path = "Logs/Salvacion" + to_string(heaven->contdelogs-1) + ".txt";
     sendmail(path, mail);
 
 }

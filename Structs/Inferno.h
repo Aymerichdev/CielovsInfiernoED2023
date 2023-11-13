@@ -1,7 +1,7 @@
 struct Inferno {
     vector<HumanSinHeap*>* Demons[7] ;
     HumanWorld* world;
-    int archivenamecounter[7] = {0,0,0,0,0,0,0};
+    int archivenamecounter[7] = {1,1,1,1,1,1,1};
     int conthumans = 0;
     //constructor
     Inferno() {
@@ -164,7 +164,7 @@ struct Inferno {
         //Creacion del log de condenacion
         ofstream log;
         
-        log.open("Logs/" + givedemonname(choosensin) + to_string(archivenamecounter[choosensin]) + ".txt");
+        log.open("Logs/" + givedemonname(choosensin) + to_string(archivenamecounter[choosensin]++) + ".txt");
                
         log << bitacora;
         log.close();
