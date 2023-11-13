@@ -12,38 +12,32 @@ struct Inferno {
         world = new HumanWorld(new TreeOfLife());
     }
 
-    Inferno(HumanWorld* _world){
+    Inferno (HumanWorld* world) {
         //0 Lucifer Pride 1 Belcebu envy 2 satan wrath 3 abadon lazyness 4 Mammon Greed 5 Beelfegor Gluttony 6 Asmodeo Lust
         for (int i = 0; i < 7; i++) {
             Demons[i] = new vector<HumanSinHeap*>;
         }
-        world = _world;
+        this->world = world;
     }
 
-    //methods
     void insert(Human* human, vector<Human*>* HumanList, int choosensin) {
-        //Insert a human in a list based of his max sin, in order
-        if (HumanList->size() == 0) {
-            HumanList->push_back(human);
-            return;
-        }
-
-        for(int i = 0; i < HumanList->size(); i++) {
-            if (human->getSin(choosensin) > (*HumanList)[i]->getSin(choosensin)) {
-                HumanList->insert(HumanList->begin(), human);
-                break;
-            }
-            else if (human->getSin(choosensin) == (*HumanList)[i]->getSin(choosensin)) {
-                HumanList->insert(HumanList->begin() + i, human);
-                break;
-            }
-            else if (i == HumanList->size() - 1) {
-                HumanList->push_back(human);
-                break;
-            }
-
-        }
+    // Insert a human in a list based on his max sin, in order
+    if (HumanList->empty()) {
+        HumanList->push_back(human);
+        return;
     }
+
+    auto insertionPoint = std::upper_bound(
+        HumanList->begin(), HumanList->end(), human,
+        [choosensin](Human* a, Human* b) {
+            return a->getSin(choosensin) > b->getSin(choosensin);
+        }
+    );
+
+    HumanList->insert(insertionPoint, human);
+}
+
+
     void killhuman(Human* human, int choosensin) {
         //Kill a human and send him to the Inferno
         human->setState(1);
@@ -142,8 +136,9 @@ struct Inferno {
                 continue;
             }
             insert(world->humans[i], NuevaListaOrdenada, choosensin);
+            
         }
-        
+
         //Crea la lista de pecadores
         vector<Human*>* Pecadores= new vector<Human*>;
         if (Sinners > NuevaListaOrdenada->size()) {
