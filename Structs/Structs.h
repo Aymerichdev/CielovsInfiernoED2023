@@ -194,7 +194,7 @@ string Uppercase(string str){
 int sendmail(string path, string mail) {
     // Replace with the correct path to your Python interpreter and script
     const char* pythonCommand = "python3";
-    const char* scriptPath = "Logs/Mail.py";  // Replace with the path to your Python script
+    const char* scriptPath = "Mail.py";  // Replace with the path to your Python script
 
     // Construct the command string
     string command = string(pythonCommand) + " " + scriptPath + " " + path + " " + mail;
