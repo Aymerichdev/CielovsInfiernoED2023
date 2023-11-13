@@ -21,6 +21,10 @@ struct HumanNode{
         right = _right;
     }
 
+    bool isLeaf(){
+        return left == NULL && right == NULL;
+    }
+
     int getId(){
         return human -> getId();
     }

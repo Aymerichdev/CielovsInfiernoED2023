@@ -49,6 +49,7 @@ struct Angel{
         if (human->getState() == 1){
             savedHuman = human;
             human->setState(2);
+            human->angel = this;
             return true;
         }
         return false;

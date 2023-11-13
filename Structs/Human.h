@@ -5,8 +5,12 @@ struct Human{
     string name, surname, country, belief, job, birthdate;
     int sins[7];
     vector<Human*> friends;
-    int socialNetworks[7];
-
+    int socialNetworkslike[7]; // 0 pride 1 envy 2 wrath 3 sloth 4 greed 5 gluttony 6 lust
+    Angel* angel;
+    int heapPosition= -1;
+    int sinininferno= -1;
+    string gmail = "";
+    int totalsins = 0;
     // Constructors
     Human(){
         id = 0;
@@ -20,8 +24,10 @@ struct Human{
         birthdate = "";
         for(int i = 0; i < 7; i++){
             sins[i] = 0;
-            socialNetworks[i] = 0;
+            socialNetworkslike[i] = (rand() % 100) + 1 ;
         }
+        angel = NULL;  
+        birthdate = HoraSistema();
     }
 
     // For testing purposes
@@ -37,8 +43,10 @@ struct Human{
         birthdate = "";
         for(int i = 0; i < 7; i++){
             sins[i] = 0;
-            socialNetworks[i] = 0;
+            socialNetworkslike[i] = (rand() % 100) + 1 ;
         }
+        angel = NULL;
+        birthdate = HoraSistema();
     }
 
     Human(int _id, string _name, string _surname, string _country, string _belief, string _job, string _birthdate){
@@ -54,8 +62,11 @@ struct Human{
         birthdate = _birthdate;
         for(int i = 0; i < 7; i++){
             sins[i] = 0;
-            socialNetworks[i] = 0;
+            socialNetworkslike[i] = (rand() % 100) + 1;
         }
+        angel = NULL;
+        birthdate = HoraSistema();
+        gmail = name + surname + "@gmail.com";
     }
 
     void printHuman(){
@@ -79,12 +90,13 @@ struct Human{
         cout << "Belief: " << belief << endl;
         cout << "Job: " << job << endl;
         cout << "Birthdate: " << birthdate << endl;
+        cout << "Mail: " << gmail << endl;
         cout << "Sins: ";
         for (int i = 0; i < 7; i++)
             cout << sins[i] << " ";
         cout << endl << "Social Networks: ";
         for (int i = 0; i < 7; i++)
-            cout << socialNetworks[i] << " ";
+            cout << socialNetworkslike[i] << " ";
         cout << endl << "Friends: ";
         for (int i = 0; i < friends.size(); i++)
             cout << friends[i]->getId() << " ";
@@ -136,12 +148,22 @@ struct Human{
         return birthdate;
     }
 
+    int getbiggersinposition (){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            if (sins[i] > sins[res]) {
+                res = i;
+            }
+        }
+        return res;
+    }
+
     int getSin(int index){
         return sins[index];
     }
 
     int getSocialNetwork(int index){
-        return socialNetworks[index];
+        return socialNetworkslike[index];
     }
 
     vector<Human*> getFriends(){
@@ -153,10 +175,81 @@ struct Human{
     }
 
     void addSocialNetwork(int index, int value){
-        socialNetworks[index] += value;
+        socialNetworkslike[index] += value;
     }
 
     void addFriend(Human * friendToAdd){
         friends.push_back(friendToAdd);
+    }
+
+    string getstringid(){
+        string id = "(" + to_string(this->id) + ")";
+        return id;
+    }
+
+    string getfriendsstring(){
+        string res = "Amigo de: (";
+        for (int i = 0; i < friends.size(); i++)
+            res += friends[i]->getName() + " " + friends[i]->getSurname() + " " + friends[i]->getstringid() + " "; 
+        res += ")";
+        return res;
+
+    }
+    string getinfo(){
+        string res = "";
+        res += name + " " + surname + " " + getstringid() + " ";
+        return res;
+    }
+
+
+    int getbiggersin(){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            if (sins[i] > res) {
+                res = sins[i];
+            }
+        }
+        return res;
+    }
+
+    int getfavoritesocialnetwork(){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            if (socialNetworkslike[i] > socialNetworkslike[res]) {
+                res = i;
+            }
+        }
+        return res;
+    }
+
+    int getfavoritism(int socialnetwork){
+        socialnetwork = socialNetworkslike[socialnetwork];
+        int res = 0;
+
+        //Create a sorrt list to find the favoritism 
+        int nuevoarray[7] = {socialNetworkslike[0], socialNetworkslike[1], socialNetworkslike[2], socialNetworkslike[3], socialNetworkslike[4], socialNetworkslike[5], socialNetworkslike[6]};
+        sort(nuevoarray, nuevoarray+7);
+
+        for (int i = 0; i < 7; i++) {
+            if (socialnetwork == nuevoarray[i] )
+                res = i;        
+        }
+        return res;
+    }
+
+    void updatesins(){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            res += sins[i];
+        }
+        totalsins = res;
+    }
+
+
+    void publication(int socialnetwork){
+        for (int i =0; i < friends.size(); i++){
+            friends[i]->addSin(socialnetwork, friends[i]->getfavoritism(socialnetwork)+1);   
+            friends[i]->updatesins();         
+        }
     }
 };
