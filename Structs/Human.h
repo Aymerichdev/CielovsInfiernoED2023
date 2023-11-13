@@ -10,6 +10,7 @@ struct Human{
     int heapPosition= -1;
     int sinininferno= -1;
     string gmail = "";
+    int totalsins = 0;
     // Constructors
     Human(){
         id = 0;
@@ -236,9 +237,19 @@ struct Human{
         return res;
     }
 
+    void updatesins(){
+        int res = 0;
+        for (int i = 0; i < 7; i++) {
+            res += sins[i];
+        }
+        totalsins = res;
+    }
+
+
     void publication(int socialnetwork){
         for (int i =0; i < friends.size(); i++){
-            friends[i]->addSin(socialnetwork, friends[i]->getfavoritism(socialnetwork)+1);            
+            friends[i]->addSin(socialnetwork, friends[i]->getfavoritism(socialnetwork)+1);   
+            friends[i]->updatesins();         
         }
     }
 };

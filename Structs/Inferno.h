@@ -185,26 +185,23 @@ struct Inferno {
         return res;
     }
 
-    int getminsin(int choosensin) {
-        if (Demons[choosensin]->size() == 0) {
-            return 0;
-        }
-        int res = Demons[choosensin]->at(0)->getmin();
-        for (int i = 0; i < Demons[choosensin]->size(); i++) {
-            if (Demons[choosensin]->at(i)->getmin() < res) {
-                res = Demons[choosensin]->at(i)->getmin();
-            }
-        }
-        return res;
-    }
+    
 
     Human * getminsinnerofallsins() {
-        int cont = getminsin(0);
-        Human * res; 
+        int cont = 999999999;
+        Human* res;
         for (int i = 0; i < 7; i++) {
-            if (getminsin(i) < cont) {
-                cont = getminsin(i);
-                res = Demons[i]->at(0)->heap[0];
+            if (Demons[i]->size() == 0) {
+                continue;
+            }
+            for (int j = 0; j < Demons[i]->size(); j++) {
+                if (Demons[i]->at(j)->isEmpty()) {
+                    continue;
+                }
+                if (Demons[i]->at(j)->getmin()->getSin(i) < cont) {
+                    cont = Demons[i]->at(j)->getmin()->getSin(i);
+                    res = Demons[i]->at(j)->getmin();
+                }
             }
         }
         return res;
@@ -270,13 +267,24 @@ struct Inferno {
         return res;
     }
 
-    int getaverage(int choosensin) {
-        int res = 0;
-        
-        for (int i = 0; i < Demons[choosensin]->size(); i++) {
-            res += Demons[choosensin]->at(i)->getallints();
+    Human * getmaximunsinner(){
+        int cont = 0;
+        Human * res = NULL; 
+        for (int i = 0; i < 7; i++) {
+            if (Demons[i]->size() == 0) {
+                continue;
+            }
+            for (int j = 0; j < Demons[i]->size(); j++) {
+                if (Demons[i]->at(j)->isEmpty()) {
+                    continue;
+                }
+                if (Demons[i]->at(j)->maxsinnerhuman()->totalsins > cont) {
+                    cont = Demons[i]->at(j)->maxsinnerhuman()->totalsins;
+                    res = Demons[i]->at(j)->maxsinnerhuman();
+                }
+            }
         }
-        return res / Demons[choosensin]->size();
+        return res;
     }
     
     void print() {
@@ -328,7 +336,8 @@ struct Inferno {
         str += "Promedio de pecados por pecador: " + to_string(overallsins() / conthumans) + "\n";
         Human * human = getmaxsinnerofall();
         str += "Mayor pecador: " + human->getinfo() +" con "+ to_string(human->sins[human->sinininferno]) + " pecados de "+ givedemonname(human->sinininferno) +"\n";
-
+        human = getminsinnerofallsins();
+        str += "Menor pecador: " + human->getinfo() +" con "+ to_string(human->sins[human->sinininferno]) + " pecados de "+ givedemonname(human->sinininferno) +"\n";
 
         //crea el archivo S
         ofstream file;

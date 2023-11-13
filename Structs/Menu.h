@@ -19,7 +19,8 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
     cout << "7. Ver infierno" << endl;
     cout << "8. Ver cielo" << endl;
     cout << "9. Determinar ganador" << endl;
-    cout << "10. Salir\n\n" << endl;
+    cout << "10. Ver el ultimo nivel del arbol de la vida" << endl;
+    cout << "11. Salir\n\n" << endl;
 
     string preopcion;
     getline(cin, preopcion);
@@ -69,6 +70,10 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
         break;
 
         case 10:
+        world->treeOfLife->printTreeBase();
+        break;
+
+        case 11:
         IsRunning = 0;
         break;
 

@@ -74,7 +74,8 @@ struct HeavenTree{
         
         for(int i = 0; i < angels.size(); i++){
         
-        Human* human = inferno->getmaxsinnerofall();
+        Human* human = inferno->getmaximunsinner();
+        cout << human->totalsins << endl;
 
         if (human == NULL){
             cout << "No hay humanos en el infierno, un humano dio nulo" << endl;
@@ -103,7 +104,7 @@ struct HeavenTree{
         Angel* angel = angels.at(i);
         angel->saveHuman(human);
         hashTable->insert(human);
-        str += HoraSistema() + " " + angel->name +" generacion "+ to_string(size) + " salvo a " + human->getinfo() +  " por " + to_string(human->getbiggersin()) +" pecados" +  "\n";
+        str += HoraSistema() + " " + angel->name +" generacion "+ to_string(size) + " salvo a " + human->getinfo() +  " por " + to_string(human->totalsins) +" pecados" +  "\n";
         }
         //crea el archivo S
         ofstream file;

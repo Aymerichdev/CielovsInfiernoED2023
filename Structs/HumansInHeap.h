@@ -76,14 +76,16 @@ struct HumanSinHeap {
         return heap.size();
     }
 
-    int getmin() const {
+    Human* getmin() const {
         if (heap.empty()) {
             throw std::out_of_range("Heap is empty");
         }
-        int res = heap[0]->getSin(choosenSin);
+        int cont = 999999999;
+        Human * res = nullptr;
         for (int i = 0; i < heap.size(); i++) {
-            if (heap[i]->getSin(choosenSin) < res) {
-                res = heap[i]->getSin(choosenSin);
+            if (heap[i]->getSin(choosenSin) < cont) {
+                cont = heap[i]->getSin(choosenSin);
+                res = heap[i];
             }        
         }
         return res;
@@ -152,5 +154,20 @@ struct HumanSinHeap {
 
         }
         std::cout << std::endl;
+    }
+
+    Human * maxsinnerhuman(){
+        int cont = 0;
+        Human* res = nullptr; // Initialize to nullptr
+        if (heap.empty()) {
+            return nullptr;
+        }
+        for(int i = 0; i < heap.size(); i++) {
+            if (heap[i]->totalsins > cont) {
+               res = heap[i];
+               cont = heap[i]->totalsins; // Update the max sin count
+            }
+        }
+        return res; // Return the human with the max sin count
     }
 };

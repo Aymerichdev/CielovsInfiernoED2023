@@ -76,4 +76,26 @@ struct TreeOfLife{
         emptyTree(root);
         root = NULL;
     }
+
+    void printTreeBase() {
+        printTreeBase(root);
+    }
+
+    void printTreeBase(HumanNode* _node) {
+        if (_node == NULL) {
+            return;
+        }
+        if (_node->getLeft() == NULL && _node->getRight() == NULL) {
+            _node->getHuman()->printHuman();
+            return;
+        }
+        printTreeBase(_node->getLeft());
+        printTreeBase(_node->getRight());
+    }
+
+
+
+
+
+
 };
