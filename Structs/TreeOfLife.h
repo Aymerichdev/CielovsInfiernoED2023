@@ -77,6 +77,12 @@ struct TreeOfLife{
         root = NULL;
     }
 
+    void treeInformation(){
+        printTreeBase();
+        printTreeNodeAmmount();
+        printTreeDepth();
+    }
+
     void printTreeBase() {
         printTreeBase(root);
     }
@@ -85,7 +91,7 @@ struct TreeOfLife{
         if (_node == NULL) {
             return;
         }
-        if (_node->getLeft() == NULL && _node->getRight() == NULL) {
+        if (_node->isLeaf()) {
             _node->getHuman()->printHuman();
             return;
         }
@@ -93,9 +99,29 @@ struct TreeOfLife{
         printTreeBase(_node->getRight());
     }
 
+    void printTreeDepth() {
+        cout << "Niveles del arbol: " << printTreeDepth(root) << endl;
+    }
 
+    int printTreeDepth(HumanNode* _node) {
+        if (_node == NULL)
+            return 0;
+        if (_node->isLeaf())
+            return 1;
+        else
+            return 1 + max(printTreeDepth(_node->getLeft()), printTreeDepth(_node->getRight()));
+    }
 
+    void printTreeNodeAmmount() {
+        cout << "Cantidad de nodos: " << printTreeNodeAmmount(root) << endl;
+    }
 
-
-
+    int printTreeNodeAmmount(HumanNode* _node) {
+        if (_node == NULL)
+            return 0;
+        if (_node->isLeaf())
+            return 1;
+        else
+            return 1 + printTreeNodeAmmount(_node->getLeft()) + printTreeNodeAmmount(_node->getRight());
+    }
 };

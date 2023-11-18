@@ -70,7 +70,8 @@ void Menu(HumanWorld* world, HeavenTree* heaven, Inferno* hell){
         break;
 
         case 10:
-        world->treeOfLife->printTreeBase();
+        world->treeOfLife->treeInformation();
+        world->printHumansSize();
         break;
 
         case 11:

@@ -225,5 +225,9 @@ struct HumanWorld{
         }
         cout << endl;
     }
+
+    void printHumansSize(){
+        cout << "En el mundo hay " << humansCount << " humanos" << endl;
+    }
     
 };
